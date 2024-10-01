@@ -1,0 +1,14 @@
+spring:
+    application:
+        name: MaaTech
+    datasource:
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://vainly-playful-piglet.data-1.use1.tembo.io:5432/MaaTech
+        username: postgres
+        password: ESTjpURCMMyx1z1s
+    jpa:
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+                ddl-auto: update
+                show-sql: fals

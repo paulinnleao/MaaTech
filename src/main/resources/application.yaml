@@ -12,3 +12,5 @@ spring:
                 dialect: org.hibernate.dialect.MySQL5InnoDBDialect
                 ddl-auto: update
                 show-sql: fals
+api:
+    key: AIzaSyC9IMBVBNdpT4vCSAtuHJr946zkEWBf2rw

@@ -2,33 +2,41 @@ package com.maatech.item.rest;
 
 import com.maatech.item.entity.ItemDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@RestController
+@RequestMapping("/items")
 public class ItemRestImp implements ItemRest{
     @Override
-    public ResponseEntity<?> findItemById(UUID idItem) {
+    @GetMapping("{idItem}")
+    public ResponseEntity<?> findItemById(@PathVariable(value = "idItem") UUID idItem) {
         return null;
     }
 
     @Override
+    @GetMapping
     public List<ResponseEntity<?>> findAllItems() {
         return List.of();
     }
 
     @Override
-    public ResponseEntity<?> createItem(ItemDTO item) {
+    @PostMapping("/{idItem}")
+    public ResponseEntity<?> createItem(@PathVariable("idItem") ItemDTO item) {
         return null;
     }
 
     @Override
-    public ResponseEntity<?> updateItem(ItemDTO item) {
+    @PutMapping("/{idItem}")
+    public ResponseEntity<?> updateItem(@PathVariable("idItem") ItemDTO item) {
         return null;
     }
 
     @Override
-    public ResponseEntity<?> deleteItemById(UUID idItem) {
+    @DeleteMapping("/{idItem}")
+    public ResponseEntity<?> deleteItemById(@PathVariable("idItem") UUID idItem) {
         return null;
     }
 }

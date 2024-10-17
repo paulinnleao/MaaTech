@@ -2,33 +2,41 @@ package com.maatech.user.rest;
 
 import com.maatech.user.entity.UserDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@RestController
+@RequestMapping("/users")
 public class UserRestImp implements UserRest{
     @Override
-    public ResponseEntity<?> findUserById(UUID idUser) {
+    @GetMapping("/{idUser}")
+    public ResponseEntity<?> findUserById(@PathVariable(value = "idUser") UUID idUser) {
         return null;
     }
 
     @Override
+    @GetMapping
     public List<ResponseEntity<?>> findAllUser() {
         return List.of();
     }
 
     @Override
-    public ResponseEntity<?> createUser(UserDTO user) {
+    @PostMapping
+    public ResponseEntity<?> createUser(@RequestBody UserDTO user) {
         return null;
     }
 
     @Override
-    public ResponseEntity<?> updateUser(UserDTO user) {
+    @PutMapping
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO user) {
         return null;
     }
 
     @Override
-    public ResponseEntity<?> deleteUserById(UUID idUser) {
+    @DeleteMapping("/{idUser}")
+    public ResponseEntity<?> deleteUserById(@PathVariable(value = "idUser") UUID idUser) {
         return null;
     }
 }

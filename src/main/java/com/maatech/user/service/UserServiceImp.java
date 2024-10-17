@@ -2,10 +2,12 @@ package com.maatech.user.service;
 
 import com.maatech.user.entity.UserDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class UserServiceImp implements UserService{
     @Override
     public ResponseEntity<?> findUserById(UUID idUser) {

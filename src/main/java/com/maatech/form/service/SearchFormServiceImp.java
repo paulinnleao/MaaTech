@@ -5,9 +5,11 @@ import com.maatech.config.GeminiApiClient;
 import com.maatech.config.GeminiRequest;
 import com.maatech.form.entity.SearchFormRequestDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+@Service
 public class SearchFormServiceImp implements SearchFormService{
     @Override
     public ResponseEntity<?> findTheProductForm(SearchFormRequestDTO form) {

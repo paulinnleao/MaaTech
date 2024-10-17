@@ -3,7 +3,7 @@ spring:
         name: MaaTech
     datasource:
         driverClassName: org.postgresql.Driver
-        url: jdbc:postgresql://thinly-essential-lorikeet.data-1.use1.tembo.io:5432/MaaTech
+        url: jdbc:postgresql://thinly-essential-lorikeet.data-1.use1.tembo.io:5432/postgres
         username: postgres
         password: he282W0AYkmUNXiD
     jpa:
@@ -12,5 +12,7 @@ spring:
                 dialect: org.hibernate.dialect.MySQL5InnoDBDialect
                 ddl-auto: update
                 show-sql: fals
+    flyway:
+        baselineOnMigrate: true
 api:
     key: AIzaSyC9IMBVBNdpT4vCSAtuHJr946zkEWBf2rw

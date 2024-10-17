@@ -3,9 +3,9 @@ spring:
         name: MaaTech
     datasource:
         driverClassName: org.postgresql.Driver
-        url: jdbc:postgresql://vainly-playful-piglet.data-1.use1.tembo.io:5432/MaaTech
+        url: jdbc:postgresql://thinly-essential-lorikeet.data-1.use1.tembo.io:5432/MaaTech
         username: postgres
-        password: ESTjpURCMMyx1z1s
+        password: he282W0AYkmUNXiD
     jpa:
         properties:
             hibernate:

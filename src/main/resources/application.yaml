@@ -9,9 +9,9 @@ spring:
     jpa:
         properties:
             hibernate:
-                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+                dialect: org.hibernate.dialect.PostgreSQLDialect
                 ddl-auto: update
-                show-sql: fals
+                show-sql: false
     flyway:
         baselineOnMigrate: true
 api:

@@ -10,58 +10,62 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 
 @Service
-public class SearchFormServiceImp implements SearchFormService{
+public class SearchFormServiceImp implements SearchFormService {
+
     @Override
     public ResponseEntity<?> findTheProductForm(SearchFormRequestDTO form) {
         StringBuilder query = new StringBuilder();
-        query.append("Faça uma busca refinada do seguinte. ");
+        query.append("Me recomende uma lista com 20 nomes dos produtos lançados até 06/2024. Eu quero apenas os nomes em formato de lista. E que Atenda as seguintes características: \n\n");
 
-        // Mandatory
+        // Campos obrigatórios
         query.append("primary use: ").append(form.getPrimaryUse());
         query.append(" budget: ").append(form.getBudget());
-        query.append(" preferred brand: ").append(form.getBudget());
+        query.append(" preferred brand: ").append(form.getPreferredBrand());  // Corrigido
         query.append(" performance level: ").append(form.getPerformanceLevel());
         query.append(" number of users: ").append(form.getNumberOfUsers());
-        query.append(" space limitations:").append(form.isSpaceLimitations());
-        query.append(" usage frequency:").append(form.getUsageFrequency());
+        query.append(" space limitations: ").append(form.isSpaceLimitations());
+        query.append(" usage frequency: ").append(form.getUsageFrequency());
 
-        //Optionals
-        if(!form.getPreferredDesign().isEmpty()){
+        // Campos opcionais
+        if (!form.getPreferredDesign().isEmpty()) {
             query.append(" preferred design: ").append(form.getPreferredDesign());
         }
-        if(!form.isEnergyEfficiency()){
+        if (!form.isEnergyEfficiency()) {
             query.append(" energy efficiency: ").append(form.isEnergyEfficiency());
         }
-        if(!form.isNeedTechnicalSupport()){
+        if (!form.isNeedTechnicalSupport()) {
             query.append(" need technical support: ").append(form.isNeedTechnicalSupport());
         }
-        if(!form.isSuggestAccessories()){
+        if (!form.isSuggestAccessories()) {
             query.append(" suggest accessories: ").append(form.isSuggestAccessories());
         }
-        if(!form.getDeviceCompatibility().isEmpty()){
+        if (!form.getDeviceCompatibility().isEmpty()) {
             query.append(" device compatibility: ").append(form.getDeviceCompatibility());
         }
-        if(!form.getDurabilityLevel().isEmpty()){
+        if (!form.getDurabilityLevel().isEmpty()) {
             query.append(" durability level: ").append(form.getDurabilityLevel());
         }
 
-        query.append(" busque apenas os top 20 até a sua última atualização. Forneça apenas os nomes, nada mais e nada menos.");
+        query.append("\n\n.Apenas escreva a lista. Frases antes e depois podem me atrapalhar.");
 
-        try{
+        try {
+            // Chave da API fornecida
             ApiKeyProvider apiKeyProvider = new ApiKeyProvider();
 
+            // Construindo o request para a API Gemini
             GeminiRequest.Part part = new GeminiRequest.Part(query.toString());
             GeminiRequest.Content content = new GeminiRequest.Content(Arrays.asList(part));
             GeminiRequest request = new GeminiRequest(Arrays.asList(content));
 
-            GeminiApiClient.sendRequest(request, apiKeyProvider.getApiKey());
+            // Enviando requisição para a API Gemini
+            String response = GeminiApiClient.sendRequest(request, "AIzaSyC9IMBVBNdpT4vCSAtuHJr946zkEWBf2rw");
 
-        }catch(Exception e){
+            // Processando a resposta da API
+            return ResponseEntity.ok(response);  // Retornando a resposta JSON da API
+
+        } catch (Exception e) {
             e.printStackTrace();
+            return ResponseEntity.status(500).body("Erro ao processar a requisição.");
         }
-
-
-
-        return null;
     }
 }

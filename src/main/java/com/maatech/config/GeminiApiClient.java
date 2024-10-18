@@ -1,5 +1,7 @@
 package com.maatech.config;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -7,12 +9,10 @@ import java.nio.charset.StandardCharsets;
 
 public class GeminiApiClient {
 
-    public static void sendRequest(GeminiRequest request, String apiKey) throws Exception {
-
-        ApiKeyProvider apiKeyProvider = new ApiKeyProvider();
+    public static String sendRequest(GeminiRequest request, String apiKey) throws Exception {
 
         // URL da API do Gemini
-        URL url = new URL("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + apiKeyProvider.getApiKey());
+        URL url = new URL("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + apiKey);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         // Configurando o método e cabeçalhos
@@ -29,11 +29,19 @@ public class GeminiApiClient {
             os.write(input, 0, input.length);
         }
 
-        // Lendo a resposta (opcional)
+        // Lendo a resposta
         int responseCode = connection.getResponseCode();
         System.out.println("Response Code: " + responseCode);
 
-        // Lógica para lidar com a resposta (se necessário)
+        // Capturando a resposta da API
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+            StringBuilder response = new StringBuilder();
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            return response.toString();
+        }
     }
 
     private static String convertToJson(GeminiRequest request) {

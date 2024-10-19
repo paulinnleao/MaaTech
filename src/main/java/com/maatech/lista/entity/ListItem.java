@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Table(name = "LIST")
+@Table(name = "LIST_ITEMS")
 public class ListItem implements Serializable {
 
     @Serial

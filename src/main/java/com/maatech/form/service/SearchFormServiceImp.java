@@ -7,7 +7,7 @@ import com.maatech.form.entity.SearchFormRequestDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class SearchFormServiceImp implements SearchFormService {
@@ -54,8 +54,8 @@ public class SearchFormServiceImp implements SearchFormService {
 
             // Construindo o request para a API Gemini
             GeminiRequest.Part part = new GeminiRequest.Part(query.toString());
-            GeminiRequest.Content content = new GeminiRequest.Content(Arrays.asList(part));
-            GeminiRequest request = new GeminiRequest(Arrays.asList(content));
+            GeminiRequest.Content content = new GeminiRequest.Content(List.of(part));
+            GeminiRequest request = new GeminiRequest(List.of(content));
 
             // Enviando requisição para a API Gemini
             String response = GeminiApiClient.sendRequest(request, "AIzaSyC9IMBVBNdpT4vCSAtuHJr946zkEWBf2rw");

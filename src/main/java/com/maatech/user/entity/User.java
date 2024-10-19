@@ -15,9 +15,6 @@ import java.util.UUID;
 @Table(name = "USERS")
 public class User implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID idUser;

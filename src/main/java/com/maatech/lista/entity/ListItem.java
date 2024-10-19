@@ -3,63 +3,48 @@ package com.maatech.lista.entity;
 import com.maatech.item.entity.Item;
 import com.maatech.user.entity.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "LIST_ITEMS")
-public class ListItem implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+@IdClass(ListItem.ListItemId.class)
+public class ListItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID idList;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idItem")
     private Item item;
 
+    @Id
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idUser")
     private User user;
 
-    public ListItem() {
-    }
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ListItemId implements Serializable {
+        private UUID idItem;
+        private UUID idUser;
 
-    public ListItem(UUID idList, Item item, User user) {
-        this.idList = idList;
-        this.item = item;
-        this.user = user;
-    }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ListItemId that = (ListItemId) o;
+            return Objects.equals(idItem, that.idItem) && Objects.equals(idUser, that.idUser);
+        }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ListItem listItem = (ListItem) o;
-        return Objects.equals(idList, listItem.idList) && Objects.equals(item, listItem.item) && Objects.equals(user, listItem.user);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idList, item, user);
-    }
-
-    @Override
-    public String toString() {
-        return "ListItem{" +
-                "idList=" + idList +
-                ", item=" + item +
-                ", user=" + user +
-                '}';
+        @Override
+        public int hashCode() {
+            return Objects.hash(idItem, idUser);
+        }
     }
 }

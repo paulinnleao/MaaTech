@@ -1,6 +1,6 @@
 package com.maatech.user.rest;
 
-import com.maatech.user.entity.UserDTO;
+import com.maatech.user.entity.UserRequestDTO;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -10,7 +10,7 @@ public interface UserRest {
 
     ResponseEntity<?> findUserById(UUID idUser);
     List<ResponseEntity<?>> findAllUser();
-    ResponseEntity<?> createUser(UserDTO user);
-    ResponseEntity<?> updateUser(UserDTO user);
+    ResponseEntity<?> createUser(UserRequestDTO user);
+    ResponseEntity<?> updateUser(UserRequestDTO user);
     ResponseEntity<?> deleteUserById(UUID idUser);
 }

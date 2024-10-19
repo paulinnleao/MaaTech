@@ -27,6 +27,11 @@ public class ListItem {
     @JoinColumn(name = "idUser")
     private User user;
 
+    public ListItem(User user, Item item) {
+        this.item = item;
+        this.user = user;
+    }
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

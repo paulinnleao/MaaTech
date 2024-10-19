@@ -1,6 +1,6 @@
 package com.maatech.user.rest;
 
-import com.maatech.user.entity.UserDTO;
+import com.maatech.user.entity.UserRequestDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +24,13 @@ public class UserRestImp implements UserRest{
 
     @Override
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody UserDTO user) {
+    public ResponseEntity<?> createUser(@RequestBody UserRequestDTO user) {
         return null;
     }
 
     @Override
     @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody UserDTO user) {
+    public ResponseEntity<?> updateUser(@RequestBody UserRequestDTO user) {
         return null;
     }
 

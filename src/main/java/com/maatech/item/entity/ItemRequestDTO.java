@@ -1,19 +1,11 @@
 package com.maatech.item.entity;
 
-import jakarta.persistence.Column;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-import java.util.Objects;
 import java.util.UUID;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
-public class ItemDTO {
+@Data
+public class ItemRequestDTO {
 
     private UUID idItem;
     private String name;
@@ -26,10 +18,10 @@ public class ItemDTO {
     private String reviewCount;
     private String wight;
 
-    public ItemDTO() {
+    public ItemRequestDTO() {
     }
 
-    public ItemDTO(UUID idItem, String name, String description, String model, String brand, Double avaragePrice, String category, String rating, String reviewCount, String wight) {
+    public ItemRequestDTO(UUID idItem, String name, String description, String model, String brand, Double avaragePrice, String category, String rating, String reviewCount, String wight) {
         this.idItem = idItem;
         this.name = name;
         this.description = description;

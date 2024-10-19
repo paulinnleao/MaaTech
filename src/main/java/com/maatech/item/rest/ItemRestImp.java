@@ -1,6 +1,6 @@
 package com.maatech.item.rest;
 
-import com.maatech.item.entity.ItemDTO;
+import com.maatech.item.entity.ItemRequestDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +24,13 @@ public class ItemRestImp implements ItemRest{
 
     @Override
     @PostMapping("/{idItem}")
-    public ResponseEntity<?> createItem(@PathVariable("idItem") ItemDTO item) {
+    public ResponseEntity<?> createItem(@PathVariable("idItem") ItemRequestDTO item) {
         return null;
     }
 
     @Override
     @PutMapping("/{idItem}")
-    public ResponseEntity<?> updateItem(@PathVariable("idItem") ItemDTO item) {
+    public ResponseEntity<?> updateItem(@PathVariable("idItem") ItemRequestDTO item) {
         return null;
     }
 

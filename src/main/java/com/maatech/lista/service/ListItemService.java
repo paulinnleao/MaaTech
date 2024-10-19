@@ -1,5 +1,7 @@
 package com.maatech.lista.service;
 
+import com.maatech.item.entity.ItemRequestDTO;
+import com.maatech.lista.entity.ListItem;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -9,6 +11,6 @@ public interface ListItemService {
 
     ResponseEntity<?> findListByIdUser(UUID idUser);
     ResponseEntity<List<?>> listAllLitsItems();
-    ResponseEntity<?> addNewItemToList(UUID idUser, UUID idItem);
+    ListItem addNewItemToList(UUID idUser, ItemRequestDTO itemRequestDTO);
     ResponseEntity<?> deleteItemFromUserList(UUID idUser, UUID idItem);
 }

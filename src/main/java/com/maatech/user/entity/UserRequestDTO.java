@@ -8,17 +8,17 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class UserDTO {
+public class UserRequestDTO {
 
     private UUID idUser;
     private String name;
     private String email;
     private String password;
 
-    public UserDTO() {
+    public UserRequestDTO() {
     }
 
-    public UserDTO(UUID idUser, String name, String email, String password) {
+    public UserRequestDTO(UUID idUser, String name, String email, String password) {
         this.idUser = idUser;
         this.name = name;
         this.email = email;
@@ -29,8 +29,8 @@ public class UserDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(idUser, userDTO.idUser) && Objects.equals(name, userDTO.name) && Objects.equals(email, userDTO.email) && Objects.equals(password, userDTO.password);
+        UserRequestDTO userRequestDTO = (UserRequestDTO) o;
+        return Objects.equals(idUser, userRequestDTO.idUser) && Objects.equals(name, userRequestDTO.name) && Objects.equals(email, userRequestDTO.email) && Objects.equals(password, userRequestDTO.password);
     }
 
     @Override

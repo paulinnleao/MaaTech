@@ -1,7 +1,7 @@
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE ITEMS (
-    idItem UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    idItem UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     model VARCHAR(255),

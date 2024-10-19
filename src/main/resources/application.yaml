@@ -3,7 +3,7 @@ spring:
         name: MaaTech
     datasource:
         driverClassName: org.postgresql.Driver
-        url: jdbc:postgresql://thinly-essential-lorikeet.data-1.use1.tembo.io:5432/postgres
+        url: jdbc:postgresql://thinly-essential-lorikeet.data-1.use1.tembo.io:5432/MaaTech
         username: postgres
         password: he282W0AYkmUNXiD
     jpa:

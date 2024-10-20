@@ -41,11 +41,17 @@ public class ListItem {
     }
 
     @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class ListItemId implements Serializable {
         private UUID idItem;
         private UUID idUser;
+
+        public ListItemId() {
+        }
+
+        public ListItemId(UUID idItem, UUID idUser) {
+            this.idItem = idItem;
+            this.idUser = idUser;
+        }
 
         @Override
         public boolean equals(Object o) {

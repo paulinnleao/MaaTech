@@ -7,6 +7,8 @@ import com.maatech.item.entity.ItemResponseDTO;
 import com.maatech.item.mapper.ItemMapper;
 import com.maatech.item.service.ItemService;
 import com.maatech.lista.entity.ListItem;
+import com.maatech.lista.entity.ListItemResponseDTO;
+import com.maatech.lista.mapper.ListItemMapper;
 import com.maatech.lista.repository.ListItemRepository;
 import com.maatech.user.entity.User;
 import com.maatech.user.mapper.UserMapper;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -37,15 +40,23 @@ public class ListItemServiceImp implements ListItemService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    ListItemMapper listItemMapper;
+
     @Override
-    public ResponseEntity<?> findListByIdUser(UUID idUser) {
+    public List<ListItemResponseDTO> findListByIdUser(UUID idUser) {
         List<ListItem> userItemList = repository.findUserItemList(idUser);
+        List<ListItemResponseDTO> userItemListResponse = new ArrayList<>();
+
+        userItemList.forEach(item -> userItemListResponse.add(
+                listItemMapper.fromEntityToListItemResponseDTO(item)
+        ));
 
         if(userItemList.isEmpty()){
             throw new ResourceNotFoundException("There isn't list for this UUID: " + idUser);
         }
 
-        return ResponseEntity.ok(userItemList);
+        return userItemListResponse;
     }
 
     @Override
@@ -54,23 +65,26 @@ public class ListItemServiceImp implements ListItemService {
     }
 
     @Override
-    public ListItem addNewItemToList(UUID idUser, ItemRequestDTO itemRequestDTO) {
+    public ListItemResponseDTO addNewItemToList(UUID idUser, ItemRequestDTO itemRequestDTO) {
         if(repository.findById(new ListItem.ListItemId(idUser, itemRequestDTO.getIdItem())).isEmpty()){
+            ListItemResponseDTO responseDTO;
 
             User user = userMapper.fromResponseDtoToEntity(userService.findUserById(idUser));
             ItemResponseDTO itemResponseDTO = itemService.findItemById(itemRequestDTO.getIdItem());
 
-            Item item = new Item();
+            Item item;
 
             if(Objects.nonNull(itemResponseDTO)){
 
                 item = itemMapper.fromResponseDtoToEntity(itemResponseDTO);
                 // Verificar se está autenticado na v2
-                return repository.save(new ListItem(user, item));
+                responseDTO = listItemMapper.fromEntityToListItemResponseDTO(repository.save(new ListItem(user, item)));
             }else{
                 item = itemMapper.fromResponseDtoToEntity(itemService.createItem(itemRequestDTO));
-                return repository.save(new ListItem(user, item));
+                responseDTO = listItemMapper.fromEntityToListItemResponseDTO(repository.save(new ListItem(user, item)));
             }
+
+            return responseDTO;
         }
         return null;
     }

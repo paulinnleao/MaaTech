@@ -1,5 +1,10 @@
 package com.maatech.lista.rest;
 
+import com.maatech.item.entity.ItemRequestDTO;
+import com.maatech.lista.entity.ListItem;
+import com.maatech.lista.entity.ListItemResponseDTO;
+import com.maatech.lista.service.ListItemService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,10 +14,14 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/list-of-items")
 public class ListItemRestImp implements ListItemRest{
+
+    @Autowired
+    ListItemService service;
+
     @Override
     @GetMapping("/{idUser}")
-    public List<ResponseEntity<?>> findListByIdUser(@PathVariable("idUser") UUID idUser) {
-        return List.of();
+    public ResponseEntity<List<ListItemResponseDTO>> findListByIdUser(@PathVariable("idUser") UUID idUser) {
+        return ResponseEntity.ok(service.findListByIdUser(idUser));
     }
 
     @Override
@@ -22,9 +31,9 @@ public class ListItemRestImp implements ListItemRest{
     }
 
     @Override
-    @PostMapping("/{idUser}/{idItem}")
-    public ResponseEntity<?> addNewItemToList(@PathVariable("idUser") UUID idUser, @PathVariable("idItem") UUID idItem) {
-        return null;
+    @PostMapping("/{idUser}")
+    public ResponseEntity<ListItemResponseDTO> addNewItemToList(@PathVariable("idUser") UUID idUser, @RequestBody ItemRequestDTO itemRequestDTO) {
+        return ResponseEntity.ok(service.addNewItemToList(idUser, itemRequestDTO));
     }
 
     @Override

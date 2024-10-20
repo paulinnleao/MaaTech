@@ -1,7 +1,7 @@
 package com.maatech.user.service;
 
-import com.maatech.user.entity.UserRequestDTO;
-import com.maatech.user.entity.UserResponseDTO;
+import com.maatech.user.entity.dto.UserRequestDTO;
+import com.maatech.user.entity.dto.UserResponseDTO;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

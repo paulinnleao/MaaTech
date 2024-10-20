@@ -1,4 +1,4 @@
-package com.maatech.user.entity;
+package com.maatech.user.entity.dto;
 
 import lombok.Data;
 

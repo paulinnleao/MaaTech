@@ -1,5 +1,6 @@
-package com.maatech.user.entity;
+package com.maatech.user.entity.dto;
 
+import com.maatech.user.entity.UserRole;
 import lombok.Data;
 
 @Data

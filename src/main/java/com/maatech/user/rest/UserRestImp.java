@@ -1,6 +1,6 @@
 package com.maatech.user.rest;
 
-import com.maatech.user.entity.UserRequestDTO;
+import com.maatech.user.entity.dto.UserRequestDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

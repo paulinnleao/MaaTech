@@ -16,3 +16,6 @@ spring:
         baselineOnMigrate: true
 api:
     key: AIzaSyC9IMBVBNdpT4vCSAtuHJr946zkEWBf2rw
+    security:
+        token:
+            secret: ${JWT_SECRET:my-secret-key}}

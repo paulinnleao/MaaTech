@@ -1,9 +1,11 @@
 package com.maatech.user.rest;
 
-import com.maatech.user.entity.AuthenticationDTO;
-import com.maatech.user.entity.RegisterDTO;
+import com.maatech.config.security.TokenService;
+import com.maatech.user.entity.dto.AuthenticationDTO;
+import com.maatech.user.entity.dto.LoginResponseDTO;
+import com.maatech.user.entity.dto.RegisterDTO;
 import com.maatech.user.entity.User;
-import com.maatech.user.entity.UserRequestDTO;
+import com.maatech.user.entity.dto.UserRequestDTO;
 import com.maatech.user.mapper.UserMapper;
 import com.maatech.user.repository.UserRepository;
 import com.maatech.user.service.UserService;
@@ -33,12 +35,17 @@ public class AuthenticationRest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationDTO data){
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getEmail(), data.getPassword());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToke((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")

@@ -1,8 +1,8 @@
 package com.maatech.user.service;
 
 import com.maatech.exception.ResourceNotFoundException;
-import com.maatech.user.entity.UserRequestDTO;
-import com.maatech.user.entity.UserResponseDTO;
+import com.maatech.user.entity.dto.UserRequestDTO;
+import com.maatech.user.entity.dto.UserResponseDTO;
 import com.maatech.user.mapper.UserMapper;
 import com.maatech.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

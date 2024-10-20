@@ -20,8 +20,8 @@ public class ListItemRestImp implements ListItemRest{
 
     @Override
     @GetMapping("/{idUser}")
-    public ResponseEntity<List<ListItemResponseDTO>> findListByIdUser(@PathVariable("idUser") UUID idUser) {
-        return ResponseEntity.ok(service.findListByIdUser(idUser));
+    public ResponseEntity<List<ListItemResponseDTO>> findUserItemList(@PathVariable("idUser") UUID idUser) {
+        return ResponseEntity.ok(service.findUserItemList(idUser));
     }
 
     @Override
@@ -39,6 +39,6 @@ public class ListItemRestImp implements ListItemRest{
     @Override
     @DeleteMapping("/{idUser}/{idItem}")
     public ResponseEntity<?> deleteItemFromUserList(@PathVariable("idUser") UUID idUser, @PathVariable("idItem") UUID idItem) {
-        return null;
+        return service.deleteItemFromUserList(idUser, idItem);
     }
 }

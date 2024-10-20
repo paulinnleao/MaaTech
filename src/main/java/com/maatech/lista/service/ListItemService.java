@@ -9,8 +9,9 @@ import java.util.UUID;
 
 public interface ListItemService {
 
-    List<ListItemResponseDTO> findListByIdUser(UUID idUser);
+    List<ListItemResponseDTO> findUserItemList(UUID idUser);
     ResponseEntity<List<?>> listAllLitsItems();
     ListItemResponseDTO addNewItemToList(UUID idUser, ItemRequestDTO itemRequestDTO);
     ResponseEntity<?> deleteItemFromUserList(UUID idUser, UUID idItem);
+    ListItemResponseDTO findListItemById(UUID idUser, UUID idItem);
 }

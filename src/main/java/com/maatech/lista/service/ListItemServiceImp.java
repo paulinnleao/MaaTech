@@ -44,7 +44,7 @@ public class ListItemServiceImp implements ListItemService {
     ListItemMapper listItemMapper;
 
     @Override
-    public List<ListItemResponseDTO> findListByIdUser(UUID idUser) {
+    public List<ListItemResponseDTO> findUserItemList(UUID idUser) {
         List<ListItem> userItemList = repository.findUserItemList(idUser);
         List<ListItemResponseDTO> userItemListResponse = new ArrayList<>();
 
@@ -91,6 +91,22 @@ public class ListItemServiceImp implements ListItemService {
 
     @Override
     public ResponseEntity<?> deleteItemFromUserList(UUID idUser, UUID idItem) {
-        return null;
+        ListItemResponseDTO listItemResponseDTO = findListItemById(idUser, idItem);
+        if(Objects.nonNull(listItemResponseDTO)){
+            repository.delete(listItemMapper.fromResponseDtoToEntity(listItemResponseDTO));
+            return ResponseEntity.noContent().build();
+        }else{
+            throw new ResourceNotFoundException("This item there isn't in user list. idUser: " + idUser + ", idItem: " + idItem);
+        }
+    }
+
+    @Override
+    public ListItemResponseDTO findListItemById(UUID idUser, UUID idItem){
+        ListItem listItem = repository.findById(
+                new ListItem.ListItemId(idUser, idItem))
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("This item there isn't in user list. idUser: " + idUser + ", idItem: " + idItem));
+
+        return listItemMapper.fromEntityToListItemResponseDTO(listItem);
     }
 }

@@ -1,0 +1,83 @@
+{
+    "primaryUse": [
+      "Trabalho",
+      "Entretenimento",
+      "Jogos (Gaming)",
+      "Edição de Vídeo/Fotos",
+      "Estudo",
+      "Casa Inteligente (Smart Home)",
+      "Uso Geral"
+    ],
+    "preferredBrand": [
+      "Samsung",
+      "Apple",
+      "LG",
+      "Sony",
+      "Dell",
+      "Lenovo",
+      "Xiaomi",
+      "Outra/Nenhuma preferência"
+    ],
+    "spaceLimitations": [
+      "Espaço muito pequeno",
+      "Espaço moderado",
+      "Espaço amplo"
+    ],
+    "preferredDesign": [
+      "Moderno e minimalista",
+      "Clássico",
+      "Funcional e simples",
+      "Compacto"
+    ],
+    "usageFrequency": [
+      "Uso diário",
+      "Uso semanal",
+      "Uso ocasional"
+    ],
+    "energyEfficiency": [
+      "Muito importante",
+      "Moderadamente importante",
+      "Pouco importante",
+      "Sem importância"
+    ],
+    "deviceCompatibility": [
+      "Sim, precisa ser compatível com dispositivos atuais",
+      "Não, sem necessidade de compatibilidade específica"
+    ],
+    "durabilityLevel": [
+      "Alta durabilidade",
+      "Durabilidade intermediária",
+      "Sem preferência"
+    ],
+    "electronics": [
+        "Smartphone",
+        "Tablet",
+        "Laptop",
+        "Smartwatch",
+        "Smart TV",
+        "Videogame Console",
+        "Roteador Wi-Fi",
+        "Câmera Digital",
+        "Câmera de Segurança",
+        "Drone",
+        "Leitor de E-book",
+        "Assistente Virtual",
+        "Aparelho de Streaming",
+        "Geladeira Inteligente",
+        "Máquina de Lavar Inteligente",
+        "Micro-ondas Inteligente",
+        "Cafeteira Automática",
+        "Ar-condicionado Inteligente",
+        "Aspirador de Pó Robô",
+        "Termostato Inteligente",
+        "Sistema de Segurança Doméstico",
+        "Console de Mixagem DJ",
+        "Sistema de Som Inteligente",
+        "Impressora",
+        "Rádio Automotivo",
+        "Sistema de Infotainment para Carros",
+        "Painel de Controle de Carros",
+        "Relógio Fitness Inteligente"
+    ]
+  }
+  

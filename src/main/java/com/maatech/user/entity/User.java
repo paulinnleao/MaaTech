@@ -18,6 +18,7 @@ public class User implements Serializable, UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "iduser")
     private UUID idUser;
 
     @Column
@@ -29,7 +30,8 @@ public class User implements Serializable, UserDetails{
     @Column
     private String password;
 
-    @Column
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private UserRole role;
 
     public User() {

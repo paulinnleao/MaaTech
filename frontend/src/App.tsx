@@ -1,11 +1,13 @@
+import { Box } from "@chakra-ui/react";
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 import './App.css';
+import HeaderPage from "./components/item/HeaderPage";
 import PaginaInicial from './components/pages/HomePage';
-import SubmissionForm from "./components/pages/SubmissionForm";
 import ResultPage from "./components/pages/ResultPage";
+import SubmissionForm from "./components/pages/SubmissionForm";
 
 const router = createBrowserRouter([
   {
@@ -23,9 +25,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  
   return (
-    <RouterProvider router = {router} />
+    <Box>
+      <HeaderPage />
+      <RouterProvider router = {router} />
+    </Box>
   )
 }
 

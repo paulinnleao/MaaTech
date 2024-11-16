@@ -1,6 +1,7 @@
 package com.maatech.user.rest;
 
 import com.maatech.config.security.TokenService;
+import com.maatech.user.entity.UserRole;
 import com.maatech.user.entity.dto.AuthenticationDTO;
 import com.maatech.user.entity.dto.LoginResponseDTO;
 import com.maatech.user.entity.dto.RegisterDTO;
@@ -55,10 +56,8 @@ public class AuthenticationRest {
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.getPassword());
-        UserRequestDTO newUser = new UserRequestDTO(data.getName(), data.getEmail(), encryptedPassword, data.getRole());
+        UserRequestDTO newUser = new UserRequestDTO(data.getName(), data.getEmail(), encryptedPassword, UserRole.USER);
 
-        userService.createUser(newUser);
-
-        return ResponseEntity.ok().build();
+        return userService.createUser(newUser);
     }
 }

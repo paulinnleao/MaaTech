@@ -1,6 +1,7 @@
 package com.maatech.user.service;
 
 import com.maatech.exception.ResourceNotFoundException;
+import com.maatech.user.entity.User;
 import com.maatech.user.entity.dto.UserRequestDTO;
 import com.maatech.user.entity.dto.UserResponseDTO;
 import com.maatech.user.mapper.UserMapper;
@@ -35,8 +36,16 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public ResponseEntity<?> createUser(UserRequestDTO user) {
-        return null;
+    public ResponseEntity<?> createUser(UserRequestDTO userRequestDTO) {
+        try{
+            User user = mapper.fromRequestDtoToEntity(userRequestDTO);
+            User savedUser = repository.save(user);
+            System.out.println("Saved user: " + savedUser);
+            return ResponseEntity.ok(mapper.fromEntityToResponseDTO(savedUser));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @Override

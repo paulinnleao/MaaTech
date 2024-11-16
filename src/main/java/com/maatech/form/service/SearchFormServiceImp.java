@@ -1,13 +1,14 @@
 package com.maatech.form.service;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import com.maatech.config.ApiKeyProvider;
 import com.maatech.config.GeminiApiClient;
 import com.maatech.config.GeminiRequest;
 import com.maatech.form.entity.SearchFormRequestDTO;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class SearchFormServiceImp implements SearchFormService {

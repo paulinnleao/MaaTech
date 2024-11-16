@@ -73,7 +73,26 @@ const SubmissionForm = () =>{
     return <>
     <Formik
       initialValues={initialValues}
-      onSubmit={(values) => {
+      onSubmit={async (values) => {       
+        console.log(JSON.stringify(values));
+        try {
+            const response = await fetch("http://localhost:8080/search-form", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+            });
+            
+            if (!response.ok) {
+            throw new Error("Erro ao buscar lista de produtos");
+            }
+    
+            const data = await response.json();
+            console.log(data?.candidates[0]?.content?.parts?.text);
+      } catch (error) {
+        console.error("Erro ao buscar lista de produtos ", error);
+      }
         
       }}
     >

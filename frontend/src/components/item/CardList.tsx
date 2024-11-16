@@ -1,4 +1,4 @@
-import { Card, CardBody, Heading, CardFooter, Button, Image, Text, DialogRoot, DialogTrigger } from "@chakra-ui/react";
+import { Card, CardBody, CardFooter, Heading, Image, Text } from "@chakra-ui/react";
 import ModalProduct from "./ModalProduct";
 
 export interface CardProps {
@@ -9,9 +9,21 @@ export interface CardProps {
 }
 
 export const CardList: React.FC<CardProps> = ({ src, alt, title, description }) => {
-
-
-
+const item = {
+        model: "string",
+        brand: "string",
+        avaragePrice: 0,
+        category: "string",
+        rating: "string",
+        reviewCount: "string",
+        weight: "string",
+        cardProps: {
+            src,
+            alt,
+            title, 
+            description
+        }
+    }
     return (
         <Card.Root maxW="sm" overflow="hidden">
             <Image
@@ -23,14 +35,7 @@ export const CardList: React.FC<CardProps> = ({ src, alt, title, description }) 
                 <Text>{description}</Text>
             </CardBody>
             <CardFooter>
-                <DialogRoot role="alertdialog">
-                    <DialogTrigger asChild>
-                        <Button variant="outline" size="sm">
-                        Open Dialog
-                        </Button>
-                        <ModalProduct />
-                    </DialogTrigger>
-                </DialogRoot>
+                <ModalProduct {...item} />
             </CardFooter>
         </Card.Root>
     );

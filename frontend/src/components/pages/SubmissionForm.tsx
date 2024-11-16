@@ -6,10 +6,13 @@ import {
     SelectTrigger,
     SelectValueText,
 } from "@/components/ui/select";
-import { Formik, useFormik, useFormikContext } from "formik";
+import { Slider } from "@/components/ui/slider"
+import { Field } from "@/components/ui/field"
+import { Formik, useFormikContext } from "formik";
 
 import selectOptions from "@/components/utils/selectOptions.json";
-import { createListCollection } from "@chakra-ui/react";
+import { createListCollection, Flex, Input } from "@chakra-ui/react";
+import { Checkbox } from "../ui/checkbox";
 // AIzaSyBNvPR9hxR2Z7R1Pe2rRoUR0V9DMplHwh8
 //primaryUse;
 //budget;
@@ -33,7 +36,7 @@ interface SelectBodyProps {
   }
 const SelectBody: React.FC<SelectBodyProps> = ({textValue, listOfOptions, text, name} ) => {
     const { setFieldValue } = useFormikContext();
-    return <SelectRoot size={"lg"} collection={createListCollection({items: listOfOptions})}>
+    return <SelectRoot size="sm" collection={createListCollection({items: listOfOptions})}>
             <SelectLabel>{text}</SelectLabel>
                     <SelectTrigger>
                         <SelectValueText placeholder={textValue} />
@@ -71,37 +74,58 @@ const SubmissionForm = () =>{
     <Formik
       initialValues={initialValues}
       onSubmit={(values) => {
-        console.log(values);
+        
       }}
     >
         {(formik) => (
              <form onSubmit={formik.handleSubmit}>
-            <SelectBody 
-                textValue={"Produto"} 
-                listOfOptions={selectOptions.primaryUse}
-                text={"Selecione o produto"}
-                name="primaryUse" />
-            <SelectBody
-                textValue="Preferência de Marca"
-                listOfOptions={selectOptions.preferredBrand}
-                text="Selecione a Marca que deseja"
-                name="preferredBrand" />
-            <SelectBody
-                textValue="Frequência de uso"
-                listOfOptions={selectOptions.usageFrequency}
-                text="Com qual frequência será o uso?"
-                name="usageFrequency" />
-            <SelectBody
-                textValue="Preferência de Designer"
-                listOfOptions={selectOptions.preferredDesign}
-                text="Qual a sua preferência de design?"
-                name="preferredDesign"/>
-            <SelectBody
-                textValue="Durabilidade"
-                listOfOptions={selectOptions.durabilityLevel}
-                text="Qual a durabildiade?"
-                name="durabilityLevel" />
-
+                <Flex gap="1rem" wrap="wrap" marginBottom="1rem" direction="column">
+                    <SelectBody 
+                        textValue={"Produto"} 
+                        listOfOptions={selectOptions.product}
+                        text={"Selecione o produto"}
+                        name="primaryUse" />
+                    <Field label="Valor R$">
+                        <Input 
+                        onChange={formik.handleChange} onBlur={formik.handleBlur} name="budget" placeholder="Ex: 1.000,00" />
+                        </Field>
+                    <SelectBody
+                        textValue="Preferência de Marca"
+                        listOfOptions={selectOptions.preferredBrand}
+                        text="Selecione a Marca que deseja"
+                        name="preferredBrand" />
+                        <Field label="Quantidade de usuários">
+                            <Input 
+                            onChange={formik.handleChange} onBlur={formik.handleBlur} name="numberOfUsers" placeholder="Ex: 3"/>
+                        </Field>
+                        <Field label="Espaço Limitado" display="flex" flexDir="row" gap="1rem">
+                            <Checkbox onChange={()=>formik.setFieldValue("spaceLimitations",!formik.values.spaceLimitations)} name="spaceLimitations" />
+                        </Field>
+                    <SelectBody
+                        textValue="Frequência de uso"
+                        listOfOptions={selectOptions.usageFrequency}
+                        text="Com qual frequência será o uso?"
+                        name="usageFrequency" />
+                    <SelectBody
+                        textValue="Preferência de Designer"
+                        listOfOptions={selectOptions.preferredDesign}
+                        text="Qual a sua preferência de design?"
+                        name="preferredDesign"/>
+                        <Field label="Economia de Energia" display="flex" flexDir="row" gap="1rem">
+                            <Checkbox onChange={()=>formik.setFieldValue("energyEfficiency",!formik.values.energyEfficiency)}  name="energyEfficiency" />
+                        </Field>
+                        <Field label="Suporte Técnico" display="flex" flexDir="row" gap="1rem">
+                            <Checkbox onChange={()=>formik.setFieldValue("needTechnicalSupport",!formik.values.needTechnicalSupport)}  name="needTechnicalSupport" />
+                        </Field>
+                        <Field label="Compatibilidade Com Outros Aparelhos" display="flex" flexDir="row" gap="1rem">
+                            <Checkbox onChange={()=>formik.setFieldValue("deviceCompatibility",!formik.values.deviceCompatibility)} name="deviceCompatibility" />
+                        </Field>
+                    <SelectBody
+                        textValue="Durabilidade"
+                        listOfOptions={selectOptions.durabilityLevel}
+                        text="Qual a durabildiade?"
+                        name="durabilityLevel" />
+                </Flex>
                 <button type="submit">Enviar</button>
              </form>
         )}

@@ -1,26 +1,16 @@
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { CardList, CardProps } from "../item/CardList";
-import { useNavigate } from "react-router-dom";
-
-interface ResultPageProps {
-    listResult: CardProps[];
-}
-
-// const ResultPage: React.FC<ResultPageProps | null> = ({ listResult }) => {
+import { useLocation, useNavigate } from "react-router-dom";
+// AIzaSyBNvPR9hxR2Z7R1Pe2rRoUR0V9DMplHwh8
 const ResultPage = () => {
-    const testeImagem = {
-        src: "https://wallpapers.com/images/high/goku-pictures-im28xdck0mbth703.webp",
-        alt: "goku vermei",
-        title: "GOKU VERMEI",
-        description: "TESTANDO O GOKU VERMEI"
-    } 
-    const listResult = Array.from({length: 5}, () => testeImagem);
+    const location = useLocation();
+    const { state } = location as {state: {listResult: CardProps[]}};
     const navigate = useNavigate();
     return (
         <Box>
-            <Button  onClick={()=>navigate("submission-form")}>Voltar</Button>
+            <Button  onClick={()=>navigate("/submission-form")}>Voltar</Button>
             <Flex wrap={"wrap"} gap={"2rem"}>
-                {listResult.map((item, index) => (
+                {state?.listResult.map((item, index) => (
                     <CardList key={index} {...item} />
                 ))}
             </Flex>

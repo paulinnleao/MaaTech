@@ -13,20 +13,7 @@ import { Formik, useFormikContext } from "formik";
 import selectOptions from "@/components/utils/selectOptions.json";
 import { createListCollection, Flex, Input } from "@chakra-ui/react";
 import { Checkbox } from "../ui/checkbox";
-// AIzaSyBNvPR9hxR2Z7R1Pe2rRoUR0V9DMplHwh8
-//primaryUse;
-//budget;
-//preferredBrand;
-//performanceLevel;
-//numberOfUsers;
-//spaceLimitations;
-//usageFrequency;
-//preferredDesign
-//energyEfficiency
-//needTechnicalSupport
-//suggestAccessories
-//deviceCompatibility
-//durabilityLevel
+import { useNavigate } from "react-router-dom";
 
 interface SelectBodyProps {
     textValue: string;
@@ -52,6 +39,7 @@ const SelectBody: React.FC<SelectBodyProps> = ({textValue, listOfOptions, text, 
 }
 
 const SubmissionForm = () =>{
+    const navigate = useNavigate();
     const initialValues = {
         // Mandatory questions
         primaryUse: '',
@@ -87,9 +75,12 @@ const SubmissionForm = () =>{
             if (!response.ok) {
             throw new Error("Erro ao buscar lista de produtos");
             }
-    
+
             const data = await response.json();
-            console.log(data?.candidates[0]?.content?.parts?.text);
+            const stringResult = data?.candidates[0]?.content?.parts?.text as string;
+            const listResult = stringResult.split('\n').map(produto => produto.replace(/^\d+\./, '').trim());
+            navigate("/result-page", {state:{listResult}});
+
       } catch (error) {
         console.error("Erro ao buscar lista de produtos ", error);
       }

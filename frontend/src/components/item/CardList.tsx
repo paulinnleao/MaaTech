@@ -37,7 +37,7 @@ export const CardList: React.FC<ItemBodyProps> = ({ ...item }) => {
                 <Text>{item.cardProps.description}</Text>
             </CardBody>
             <CardFooter>
-                <ModalProduct {...item} />
+                <ModalProduct {...item} cardProps={{ ...item.cardProps, src: resolvedSrc }} />
             </CardFooter>
         </Card.Root>
     );

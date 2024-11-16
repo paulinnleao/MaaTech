@@ -1,38 +1,40 @@
 import { Card, CardBody, CardFooter, Heading, Image, Text } from "@chakra-ui/react";
-import ModalProduct from "./ModalProduct";
+import ModalProduct, { ItemBodyProps } from "./ModalProduct";
+import { useEffect, useState } from "react";
 
 export interface CardProps {
-    src: string;
+    src: Promise <string | undefined> | string;
     alt: string;
     title: string;
     description: string;
 }
 
-export const CardList: React.FC<CardProps> = ({ src, alt, title, description }) => {
-const item = {
-        model: "string",
-        brand: "string",
-        avaragePrice: 0,
-        category: "string",
-        rating: "string",
-        reviewCount: "string",
-        weight: "string",
-        cardProps: {
-            src,
-            alt,
-            title, 
-            description
-        }
-    }
+export const CardList: React.FC<ItemBodyProps> = ({ ...item }) => {
+
+    const [resolvedSrc, setResolvedSrc] = useState<string>("");
+
+    useEffect(() => {
+        const resolveImageSrc = async () => {
+            if (item.cardProps.src instanceof Promise) {
+                const src = await item.cardProps.src;
+                setResolvedSrc(src || "");
+            } else {
+                setResolvedSrc(item.cardProps.src);
+            }
+        };
+        resolveImageSrc();
+    }, [item.cardProps.src]);
+
+
     return (
         <Card.Root maxW="sm" overflow="hidden">
             <Image
-                src={src}
-                alt={alt}
+                src={resolvedSrc}
+                alt={item.cardProps.alt}
             />
             <CardBody>
-                <Heading size="md">{title}</Heading>
-                <Text>{description}</Text>
+                <Heading size="md">{item.cardProps.title}</Heading>
+                <Text>{item.cardProps.description}</Text>
             </CardBody>
             <CardFooter>
                 <ModalProduct {...item} />

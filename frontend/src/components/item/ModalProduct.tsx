@@ -2,7 +2,7 @@ import { Box, Button, DialogActionTrigger, DialogBody, DialogContent, DialogFoot
 import { useRef } from "react";
 import { CardProps } from "./CardList";
 
-interface ModalProductProps{
+export interface ItemBodyProps{
     model: string;
     brand: string;
     avaragePrice: number;
@@ -13,7 +13,7 @@ interface ModalProductProps{
     cardProps: CardProps;
 }
 
-const ModalProduct: React.FC<ModalProductProps> = ({...item}) => {
+const ModalProduct: React.FC<ItemBodyProps> = ({...item}) => {
 
     const ref = useRef<HTMLInputElement>(null)
 

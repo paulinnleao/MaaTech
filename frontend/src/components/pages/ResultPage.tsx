@@ -1,20 +1,10 @@
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { CardList, CardProps } from "../item/CardList";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ItemBodyProps } from "../item/ModalProduct";
+import { useEffect, useState } from "react";
 // AIzaSyBNvPR9hxR2Z7R1Pe2rRoUR0V9DMplHwh8
 
-// model: string;
-// brand: string;
-// avaragePrice: number;
-// category: string;
-// rating: string;
-// reviewCount: string;
-// weight: string;
-// cardProps: CardProps;
-// src: string;
-// alt: string;
-// title: string;
-// description: string;
 
 const searchImage = async (product: string): Promise<string | undefined> => {
     try {
@@ -43,20 +33,82 @@ const searchImage = async (product: string): Promise<string | undefined> => {
     }
   };
   
+const assembleTheItemBody = async (product: string) : Promise<ItemBodyProps | undefined> => {
+    const apiKey = "AIzaSyC9IMBVBNdpT4vCSAtuHJr946zkEWBf2rw";
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+    
+    const requestBody = {
+      contents: [
+        {
+          parts: [
+            {
+              text: `Me forneça os dados do produto ${product}. Preciso que me forneça um json com os seguintes dados: model, brand, avaragePrice, category, rating, reviewCount, weight, cardProps, alt (para colocar na imagem), description.`,
+            },
+          ],
+        },
+      ],
+    };
+    
+    try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        const itemBody = {
+            model: data?.model,
+            brand: data?.brand,
+            avaragePrice: data?.avaragePrice,
+            category: data?.category,
+            rating: data?.rating,
+            reviewCount: data?.reviewCount,
+            weight: data?.weight,
+            cardProps: {
+              src: await searchImage(product) ?? "",
+              alt: data?.alt,
+              title: product,
+              description: data?.description
+            }
+          } as ItemBodyProps;
+          
+        return itemBody;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
 
+}
 
 const ResultPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // console.log(searchImage("samsung galaxy s23 fe"));
+    const { state } = location as {state: {listResult: string[]}};
+    const [listProducts, setListProducts] = useState<ItemBodyProps[]>([]);
 
-    const { state } = location as {state: {listResult: CardProps[]}};
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const resolvedProducts = await Promise.all(
+                state.listResult.map((product) => assembleTheItemBody(product))
+            );
+
+            setListProducts(resolvedProducts.filter(Boolean) as ItemBodyProps[]);
+        };
+
+        fetchProducts();
+    }, [state.listResult]);
+
     return (
         <Box>
             <Button color="white"  onClick={()=>navigate("/submission-form")}>Voltar</Button>
             <Flex wrap={"wrap"} gap={"2rem"}>
-                {state?.listResult.map((item, index) => (
+                {listProducts.map((item, index) => (
                     <CardList key={index} {...item} />
                 ))}
             </Flex>

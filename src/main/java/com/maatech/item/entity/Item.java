@@ -16,7 +16,7 @@ import java.util.UUID;
 @Setter
 @EqualsAndHashCode
 @ToString
-@Table(name = "ITENS")
+@Table(name = "ITEMS")
 public class Item implements Serializable {
 
     @Serial
@@ -24,6 +24,7 @@ public class Item implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "iditem")
     private UUID idItem;
 
     @Column
@@ -38,8 +39,8 @@ public class Item implements Serializable {
     @Column
     private String brand;
 
-    @Column
-    private Double avaragePrice;
+    @Column(name = "averageprice")
+    private Double averagePrice;
 
     @Column
     private String category;
@@ -47,25 +48,25 @@ public class Item implements Serializable {
     @Column
     private String rating;
 
-    @Column
+    @Column(name = "reviewcount")
     private String reviewCount;
 
     @Column
-    private String wight;
+    private String weight;
 
     public Item() {
     }
 
-    public Item(UUID idItem, String name, String description, String model, String brand, Double avaragePrice, String category, String rating, String reviewCount, String wight) {
+    public Item(UUID idItem, String name, String description, String model, String brand, Double averagePrice, String category, String rating, String reviewCount, String weight) {
         this.idItem = idItem;
         this.name = name;
         this.description = description;
         this.model = model;
         this.brand = brand;
-        this.avaragePrice = avaragePrice;
+        this.averagePrice = averagePrice;
         this.category = category;
         this.rating = rating;
         this.reviewCount = reviewCount;
-        this.wight = wight;
+        this.weight = weight;
     }
 }

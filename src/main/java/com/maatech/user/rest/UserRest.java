@@ -13,4 +13,6 @@ public interface UserRest {
     ResponseEntity<?> createUser(UserRequestDTO user);
     ResponseEntity<?> updateUser(UserRequestDTO user);
     ResponseEntity<?> deleteUserById(UUID idUser);
+
+    ResponseEntity<?> findUserByMail(String email);
 }

@@ -18,20 +18,23 @@ import java.util.UUID;
 public class ListItem {
 
     @Id
-    @Column(name = "idUser", insertable = false, updatable = false)
+    @Column(name = "iduser", insertable = false, updatable = false)
     private UUID idUser;
 
     @Id
-    @Column(name = "idItem", insertable = false, updatable = false)
+    @Column(name = "iditem", insertable = false, updatable = false)
     private UUID idItem;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idItem", referencedColumnName = "idItem", insertable = false, updatable = false)
+    @JoinColumn(name = "iditem", referencedColumnName = "iditem", insertable = false, updatable = false)
     private Item item;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idUser", referencedColumnName = "idUser", insertable = false, updatable = false)
+    @JoinColumn(name = "iduser", referencedColumnName = "iduser", insertable = false, updatable = false)
     private User user;
+
+    public ListItem() {
+    }
 
     public ListItem(User user, Item item) {
         this.item = item;

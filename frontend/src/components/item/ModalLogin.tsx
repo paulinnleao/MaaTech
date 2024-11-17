@@ -3,44 +3,28 @@ import { Form, Formik } from "formik";
 import { useRef } from "react";
 import { IoMdLogIn } from "react-icons/io";
 import { Button } from "../ui/button";
-import { DialogCloseTrigger } from "../ui/dialog";
-import { useStoreActions } from "easy-peasy";
+import { DialogActionTrigger, DialogCloseTrigger } from "../ui/dialog";
+import { useEndpoints } from "../utils/useEndpoints";
 
-const ModalLogin = () => {
+interface ModaloginPageProps {
+    loginPage: boolean;
+    setLoginPage: React.Dispatch<React.SetStateAction<boolean>>;
+    setRegisterPage: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ModalLogin: React.FC<ModaloginPageProps>= ({loginPage, setRegisterPage, setLoginPage}) => {
+    const {endLogin} = useEndpoints();
     const initialValues = {
         email: "",
         password: ""
     }
-
     const ref = useRef<HTMLInputElement>(null);
-    const inputToken = useStoreActions<any>((actions)=>actions.inputToken);
-
-
     return (
     <Formik
     initialValues={initialValues}
-    onSubmit={async (values)=>{
-        try {
-            const response = await fetch("http://localhost:8080/auth/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(values),
-            });
-      
-            if (!response.ok) {
-              throw new Error("Erro ao fazer login");
-            }
-      
-            const data = await response.json();
-            console.log(data);
-            const token = data.token;
-      
-            inputToken(token);
-          } catch (error) {
-            console.error("Erro ao fazer login:", error);
-          }
+    onSubmit={(values)=> {
+        endLogin(values);
+        setLoginPage(false);
     }}
     >
         {({handleSubmit, getFieldProps})=>(
@@ -51,9 +35,10 @@ const ModalLogin = () => {
                 role="alertdialog"
                 initialFocusEl={() => ref.current}
                 size="lg"
+                open={loginPage}
                     >
                 <DialogTrigger asChild>
-                    <IconButton color="white" aria-label="login">
+                    <IconButton onClick={()=>setLoginPage(true)} color="white" aria-label="login">
                         <IoMdLogIn />
                     </IconButton>       
                 </DialogTrigger>
@@ -62,14 +47,19 @@ const ModalLogin = () => {
                     <DialogTitle>Login</DialogTitle>
                     </DialogHeader>
                     <DialogBody >
-                            <Input {...getFieldProps('email')} name="email" placeholder="Usuário" />
+                            <Input {...getFieldProps('email')} name="email" placeholder="Email" />
                             <Input {...getFieldProps('password')} name="password" type="password" placeholder="Senha" />
                     </DialogBody>
                     <DialogFooter>
-                        <Button color="white" textTransform="uppercase">Cadastrar</Button>
+                    <DialogActionTrigger asChild>
+                        <Button color="white" onClick={()=>{
+                            setLoginPage(false)
+                            setRegisterPage(true)
+                            }} textTransform="uppercase">Cadastrar</Button>
+                    </DialogActionTrigger>
                         <Button color="white" type="submit" textTransform="uppercase">Entrar</Button>
                     </DialogFooter>
-                    <DialogCloseTrigger />
+                    <DialogCloseTrigger onClick={()=>setLoginPage(false)} />
                 </DialogContent>
             </DialogRoot>
             </Form>

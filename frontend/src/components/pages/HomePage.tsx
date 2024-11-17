@@ -1,18 +1,22 @@
 import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
 
 const HomePage = () =>{
 
     const navigate = useNavigate();
 
     return <>
-        <button
-            onClick={()=>navigate("submission-form")}
+        <Button
+            color={"white"}
+            onClick={()=>navigate("/submission-form")}
         >
             Buscar Item
-        </button>
-        <button>
+        </Button>
+        <Button 
+            color={"white"}
+            onClick={()=>navigate("/user-list")}>
             Ver Lista de Itens
-        </button>
+        </Button>
     </>
 }
 

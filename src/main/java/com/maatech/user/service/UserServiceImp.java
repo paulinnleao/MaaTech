@@ -8,9 +8,11 @@ import com.maatech.user.mapper.UserMapper;
 import com.maatech.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -46,6 +48,15 @@ public class UserServiceImp implements UserService{
             e.printStackTrace();
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @Override
+    public UserResponseDTO findUserByMail(String email){
+        User user = repository.findUser(email);
+        if(Objects.isNull(user)){
+            throw new ResourceNotFoundException("There isn't user with this Email: " + email);
+        }
+        return mapper.fromEntityToResponseDTO(user);
     }
 
     @Override

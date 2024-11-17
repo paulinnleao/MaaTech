@@ -5,10 +5,20 @@ import './index.css'
 import App from './App.tsx'
 import { createStore, action, StoreProvider } from "easy-peasy"
 
+
 const store = createStore({
+  userAccountDetails: {
+    idUser: "",
+    name: "",
+    email: "",
+    role: ""
+  },
   token: "",
   inputToken: action((state: any, payload: string)=>{
     state.token = payload
+  }),
+  inputUserAccountDetails: action((state: any, payload: {idUser: string, name: string, email: string}) =>{
+    state.userAccountDetails = {...payload}
   })
 });
 

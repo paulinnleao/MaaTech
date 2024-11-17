@@ -14,6 +14,22 @@ import selectOptions from "@/components/utils/selectOptions.json";
 import { createListCollection, Flex, Input } from "@chakra-ui/react";
 import { Checkbox } from "../ui/checkbox";
 import { useNavigate } from "react-router-dom";
+import { useEndpoints } from "../utils/useEndpoints";
+
+export interface SubmissionFormProps {
+    primaryUse: string;
+    budget: number;
+    preferredBrand: string;
+    numberOfUsers: number;
+    spaceLimitations: boolean;
+    usageFrequency: string;
+    preferredDesign: string;
+    energyEfficiency: boolean;
+    needTechnicalSupport: boolean;
+    suggestAccessories: boolean;
+    deviceCompatibility: string;
+    durabilityLevel: string;
+}
 
 interface SelectBodyProps {
     textValue: string;
@@ -21,6 +37,7 @@ interface SelectBodyProps {
     text: string;
     name: string;
   }
+
 const SelectBody: React.FC<SelectBodyProps> = ({textValue, listOfOptions, text, name} ) => {
     const { setFieldValue } = useFormikContext();
     return <SelectRoot size="sm" collection={createListCollection({items: listOfOptions})}>
@@ -40,6 +57,7 @@ const SelectBody: React.FC<SelectBodyProps> = ({textValue, listOfOptions, text, 
 
 const SubmissionForm = () =>{
     const navigate = useNavigate();
+    const {useSearchForm} = useEndpoints();
     const initialValues = {
         // Mandatory questions
         primaryUse: '',
@@ -61,31 +79,21 @@ const SubmissionForm = () =>{
     return <>
     <Formik
       initialValues={initialValues}
-      onSubmit={async (values) => {       
-        console.log(JSON.stringify(values));
+      onSubmit={async (values: SubmissionFormProps) => {       
         try {
-            const response = await fetch("http://localhost:8080/search-form", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values),
-            });
+            const listaa = ["Samsung Galaxy Book Go", "Samsung Galaxy Book2", "Samsung Galaxy Chromebook Go", "Samsung Chromebook 4", "Samsung Chromebook Plus V2", "Samsung Notebook 9 Always", "Samsung Notebook Flash\n* Samsung XE513Q2B-K01BR", "Samsung NP300E5X", "Samsung NP530U3C", "Samsung NP305E5A", "Samsung NP300V5A", "Samsung RV411", "Samsung NP-R540", "Samsung 300E5A-A02BR", "Samsung NP300E5X-XD1BR", "Samsung NP-RC510", "Samsung ATIV Book 6", "Samsung Series 5 Ultra", "Samsung Series 9"]
+            navigate("/result-form", { state: { listResult: listaa} });
+            // const result = await useSearchForm(values);
             
-            if (!response.ok) {
-            throw new Error("Erro ao buscar lista de produtos");
-            }
-
-            const data = await response.json();
-            const stringResult = data?.candidates[0]?.content?.parts?.text as string;
-            const listResult = stringResult.split('\n').map(produto => produto.replace(/^\d+\./, '').trim());
-            navigate("/result-page", {state:{listResult}});
-
-      } catch (error) {
-        console.error("Erro ao buscar lista de produtos ", error);
-      }
-        
-      }}
+            // if (result && result.length > 0) {
+            //     navigate("/result-page", { state: { listaResult: result } });
+            // } else {
+            //     console.warn("Nenhum resultado encontrado");
+            // }
+        } catch (error) {
+            console.error("Erro durante a submissão do formulário", error);
+        }
+    }}
     >
         {(formik) => (
              <form onSubmit={formik.handleSubmit}>

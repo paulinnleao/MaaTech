@@ -12,25 +12,25 @@ public class ItemRequestDTO {
     private String description;
     private String model;
     private String brand;
-    private Double avaragePrice;
+    private Double averagePrice;
     private String category;
     private String rating;
     private String reviewCount;
-    private String wight;
+    private String weight;
 
     public ItemRequestDTO() {
     }
 
-    public ItemRequestDTO(UUID idItem, String name, String description, String model, String brand, Double avaragePrice, String category, String rating, String reviewCount, String wight) {
+    public ItemRequestDTO(UUID idItem, String name, String description, String model, String brand, Double averagePrice, String category, String rating, String reviewCount, String weight) {
         this.idItem = idItem;
         this.name = name;
         this.description = description;
         this.model = model;
         this.brand = brand;
-        this.avaragePrice = avaragePrice;
+        this.averagePrice = averagePrice;
         this.category = category;
         this.rating = rating;
         this.reviewCount = reviewCount;
-        this.wight = wight;
+        this.weight = weight;
     }
 }

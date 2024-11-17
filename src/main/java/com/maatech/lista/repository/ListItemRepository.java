@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface ListItemRepository extends JpaRepository<ListItem, ListItem.ListItemId> {
 
-    @Query("SELECT l FROM ListItem l WHERE l.user.idUser = :idUser")
+    @Query(value = "SELECT * FROM list_items WHERE idUser = :idUser", nativeQuery = true)
     List<ListItem> findUserItemList(@Param("idUser") UUID idUser);
 
 }

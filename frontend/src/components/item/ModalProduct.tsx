@@ -1,21 +1,40 @@
 import { Box, Button, DialogActionTrigger, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, Flex, Heading, Image, Portal, Text } from "@chakra-ui/react";
-import { useRef } from "react";
-import { CardProps } from "./CardList";
+import { useEffect, useRef, useState } from "react";
+import { imageNotFount } from "../utils/util";
 
 export interface ItemBodyProps{
     model: string;
     brand: string;
-    avaragePrice: number;
+    averagePrice: number;
     category: string;
     rating: string;
     reviewCount: string;
     weight: string;
-    cardProps: CardProps;
+    src: Promise <string | undefined> | string;
+    alt: string;
+    name: string;
+    description: string;
 }
 
 const ModalProduct: React.FC<ItemBodyProps> = ({...item}) => {
 
     const ref = useRef<HTMLInputElement>(null)
+
+    
+    const [resolvedSrc, setResolvedSrc] = useState<string>("");
+
+    useEffect(() => {
+        const resolveImageSrc = async () => {
+            if (item.src instanceof Promise) {
+                const src = await item.src;
+                setResolvedSrc(src || imageNotFount);
+            } else {
+                setResolvedSrc(item.src);
+            }
+        };
+        resolveImageSrc();
+    }, [item.src]);
+
 
     return  (
         <Portal>
@@ -33,13 +52,13 @@ const ModalProduct: React.FC<ItemBodyProps> = ({...item}) => {
                 </DialogTrigger>
                     <DialogContent >
                         <DialogHeader margin={"auto"}>
-                            <DialogTitle>{item.cardProps.title}</DialogTitle>
+                            <DialogTitle>{item.name}</DialogTitle>
                         </DialogHeader>
                         <DialogBody >
-                            <Image src={item.cardProps.src} alt={item.cardProps.alt}/>
+                            <Image src={resolvedSrc} alt={item.alt}/>
                             <Box p="1rem 0" textAlign="left">
                                 <Heading>Description</Heading>
-                                <Text>{item.cardProps.description}</Text>
+                                <Text>{item.description}</Text>
                             </Box>
                             <Flex gap="2rem" wrap="wrap">
                                 <Box>
@@ -60,8 +79,8 @@ const ModalProduct: React.FC<ItemBodyProps> = ({...item}) => {
                                 </Box>
                             </Flex>
                             <Box p="1rem 0">
-                                <Heading>Avarage Price</Heading>
-                                <Text color={"green"}>R$ {item.avaragePrice}</Text>
+                                <Heading>Average Price</Heading>
+                                <Text color={"green"}>R$ {item.averagePrice}</Text>
                             </Box>
                         </DialogBody>
                         <DialogFooter>

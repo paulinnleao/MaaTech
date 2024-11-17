@@ -1,6 +1,9 @@
 package com.maatech.lista.rest;
 
+import com.maatech.item.entity.Item;
 import com.maatech.item.entity.ItemRequestDTO;
+import com.maatech.item.entity.ItemResponseDTO;
+import com.maatech.item.service.ItemService;
 import com.maatech.lista.entity.ListItem;
 import com.maatech.lista.entity.ListItemResponseDTO;
 import com.maatech.lista.service.ListItemService;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,10 +22,17 @@ public class ListItemRestImp implements ListItemRest{
     @Autowired
     ListItemService service;
 
+    @Autowired
+    ItemService itemService;
+
     @Override
     @GetMapping("/{idUser}")
-    public ResponseEntity<List<ListItemResponseDTO>> findUserItemList(@PathVariable("idUser") UUID idUser) {
-        return ResponseEntity.ok(service.findUserItemList(idUser));
+    public ResponseEntity<List<ItemResponseDTO>> findUserItemList(@PathVariable("idUser") UUID idUser) {
+        List<ListItemResponseDTO> listsUser = service.findUserItemList(idUser);
+        List<ItemResponseDTO> listItems = new ArrayList<>();
+        listsUser.forEach(list -> listItems.add(itemService.findItemById(list.getIdItem())));
+        return ResponseEntity.ok(listItems);
+
     }
 
     @Override

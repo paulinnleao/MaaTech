@@ -14,4 +14,6 @@ public interface UserService {
     ResponseEntity<?> createUser(UserRequestDTO user);
     ResponseEntity<?> updateUser(UserRequestDTO user);
     ResponseEntity<?> deleteUserById(UUID idUser);
+
+    UserResponseDTO findUserByMail(String email);
 }

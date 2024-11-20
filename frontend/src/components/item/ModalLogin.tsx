@@ -1,4 +1,4 @@
-import { DialogBody, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, IconButton, Input } from "@chakra-ui/react";
+import { Box, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, IconButton, Input, Portal } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRef } from "react";
 import { IoMdLogIn } from "react-icons/io";
@@ -20,52 +20,56 @@ const ModalLogin: React.FC<ModaloginPageProps>= ({loginPage, setRegisterPage, se
     }
     const ref = useRef<HTMLInputElement>(null);
     return (
-    <Formik
-    initialValues={initialValues}
-    onSubmit={(values)=> {
-        endLogin(values);
-        setLoginPage(false);
-    }}
-    >
-        {({handleSubmit, getFieldProps})=>(
-            <Form onSubmit={handleSubmit}>
-                <DialogRoot 
-                motionPreset="slide-in-left"
-                placement="top" 
-                role="alertdialog"
-                initialFocusEl={() => ref.current}
-                size="lg"
-                open={loginPage}
-                    >
-                <DialogTrigger asChild>
-                    <IconButton onClick={()=>setLoginPage(true)} color="white" aria-label="login">
-                        <IoMdLogIn />
-                    </IconButton>       
-                </DialogTrigger>
-                    <DialogContent >
-                    <DialogHeader>
-                    <DialogTitle>Login</DialogTitle>
-                    </DialogHeader>
-                    <DialogBody >
-                            <Input {...getFieldProps('email')} name="email" placeholder="Email" />
-                            <Input {...getFieldProps('password')} name="password" type="password" placeholder="Senha" />
-                    </DialogBody>
-                    <DialogFooter>
-                    <DialogActionTrigger asChild>
-                        <Button color="white" onClick={()=>{
-                            setLoginPage(false)
-                            setRegisterPage(true)
-                            }} textTransform="uppercase">Cadastrar</Button>
-                    </DialogActionTrigger>
-                        <Button color="white" type="submit" textTransform="uppercase">Entrar</Button>
-                    </DialogFooter>
-                    <DialogCloseTrigger onClick={()=>setLoginPage(false)} />
-                </DialogContent>
-            </DialogRoot>
-            </Form>
-        )}
-       
-    </Formik>
+        <Box>
+        <Formik
+        initialValues={initialValues}
+        onSubmit={(values)=> {
+            endLogin(values);
+            setLoginPage(false);
+        }}
+        >
+            {({handleSubmit, getFieldProps})=>(
+                <Form onSubmit={handleSubmit}>
+                    <DialogRoot 
+                    motionPreset="slide-in-left"
+                    placement="top" 
+                    role="alertdialog"
+                    initialFocusEl={() => ref.current}
+                    size="lg"
+                    open={loginPage}
+                        >
+                    <DialogTrigger asChild>
+                        <IconButton alignItems="center" onClick={()=>setLoginPage(true)} backgroundColor="#F0F8FF" aria-label="login">
+                            <IoMdLogIn />
+                        </IconButton>       
+                    </DialogTrigger>
+                    <Portal>
+                        <DialogContent >
+                            <DialogHeader>
+                            <DialogTitle>Login</DialogTitle>
+                            </DialogHeader>
+                            <DialogBody >
+                                    <Input {...getFieldProps('email')} name="email" placeholder="Email" />
+                                    <Input {...getFieldProps('password')} name="password" type="password" placeholder="Senha" />
+                            </DialogBody>
+                            <DialogFooter>
+                            <DialogActionTrigger asChild>
+                                <Button color="white" onClick={()=>{
+                                    setLoginPage(false)
+                                    setRegisterPage(true)
+                                    }} textTransform="uppercase">Cadastrar</Button>
+                            </DialogActionTrigger>
+                                <Button color="white" type="submit" textTransform="uppercase">Entrar</Button>
+                            </DialogFooter>
+                            <DialogCloseTrigger onClick={()=>setLoginPage(false)} />
+                        </DialogContent>
+                    </Portal>
+                </DialogRoot>
+                </Form>
+            )}
+        
+        </Formik>
+    </Box>
     );
 
 }

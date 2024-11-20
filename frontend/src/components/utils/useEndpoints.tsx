@@ -9,7 +9,28 @@ export const useEndpoints = () => {
   const inputUserAccountDetails = useStoreActions<any>((actions) => actions.inputUserAccountDetails);
 
   const urlDefault = 'http://localhost:8080';
-
+  const notifyError = (text: string) => toast.error(text,  {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    transition: Bounce,
+    });
+  const notifySuccess = (text: string) => toast.success(text, {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+      });
   const endLogin = async (values: { email: string; password: string }) => {
     try {
       const response = await fetch(`${urlDefault}/auth/login`, {
@@ -48,15 +69,15 @@ export const useEndpoints = () => {
 
           inputUserAccountDetails(data);
         }catch (error) {
-          toast.error(`${error}`,{
+          toast(`${error}`, {
             position: "bottom-center",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
-            pauseOnHover: false,
+            pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "light",
+            theme: "dark",
             transition: Bounce,
             });
         }
@@ -64,7 +85,7 @@ export const useEndpoints = () => {
       
     findUserByEmail(values.email, token);
     } catch (error) {
-      toast.error(`${error}`);
+      notifyError(`${error}`);
     }
     
   };
@@ -85,7 +106,7 @@ const endRegister = async (values: { name: string; email: string; password: stri
 
       return true;
     } catch (error) {
-      toast.error(`${error}`);
+      notifyError(`${error}`);
     }
   };
 
@@ -110,7 +131,7 @@ const endRegister = async (values: { name: string; email: string; password: stri
   
       return data as ItemBodyProps[];
     } catch (error) {
-      toast.error(`${error}`);
+      notifyError(`${error}`);
       return undefined;
     }
   };
@@ -227,6 +248,14 @@ const endRegister = async (values: { name: string; email: string; password: stri
     }
   };
 
-  return { endLogin, endRegister, endFindUserList, useSearchImage, useAssembleTheItemBody, useSearchForm };
+  return { 
+    endLogin, 
+    endRegister, 
+    endFindUserList, 
+    useSearchImage, 
+    useAssembleTheItemBody, 
+    useSearchForm,
+    notifySuccess,
+    notifyError };
 
 };

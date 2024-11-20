@@ -1,7 +1,7 @@
 import { Button, DialogBody, DialogCloseTrigger, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle, Input } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useRef } from "react";
-import { toast } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import { DialogActionTrigger } from "../ui/dialog";
 import { useEndpoints } from "../utils/useEndpoints";
 import { useStoreState } from "easy-peasy";
@@ -16,7 +16,28 @@ interface ModalRegisterPageProps {
 const ModalRegister: React.FC<ModalRegisterPageProps> = ({registerPage, setRegisterPage, setLoginPage}) =>{
     const {endLogin, endRegister} = useEndpoints();
     const logado = useStoreState((state: any) => state.token);
-
+    const notifySuccess = (text: string) => toast.success(text, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+        });
+    const notifyError = (text: string) => toast.error(text, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+        });
     const ref = useRef<HTMLInputElement>(null);
     const initialValues = {
         name: "",
@@ -29,16 +50,16 @@ const ModalRegister: React.FC<ModalRegisterPageProps> = ({registerPage, setRegis
           const register = await endRegister(values);
           if (register) {
             console.log("first")
-            toast.success("Cadastro realizado com sucesso!");
+            notifySuccess("Cadastro realizado com sucesso!");
             await endLogin(values);
             setLoginPage(true);
           } else {
-            toast.error("Erro ao realizar cadastro!");
+            notifyError("Erro ao realizar cadastro!");
             throw new Error("Erro ao fazer login");
           }
         } catch (error) {
           console.error("Erro ao registrar:", error);
-          toast.error("Erro ao processar a solicitação.");
+          notifyError("Erro ao processar a solicitação.");
         }
       };
 

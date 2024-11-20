@@ -1,9 +1,8 @@
-import { Provider } from "@/components/ui/provider"
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-import { createStore, action, StoreProvider } from "easy-peasy"
+import { action, createStore, StoreProvider } from "easy-peasy";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import 'react-toastify/dist/ReactToastify.css';
+import App from './App.tsx';
 
 
 const store = createStore({
@@ -25,9 +24,7 @@ const store = createStore({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <StoreProvider store={store}>
-      <Provider>
         <App />
-      </Provider>
     </StoreProvider>
   </StrictMode>,
 )

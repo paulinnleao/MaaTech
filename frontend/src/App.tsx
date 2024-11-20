@@ -1,16 +1,16 @@
-import { Box } from "@chakra-ui/react";
+import { Box, ChakraProvider, createSystem, defineConfig } from "@chakra-ui/react";
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import './App.css';
 import HeaderPage from "./components/item/HeaderPage";
 import PaginaInicial from './components/pages/HomePage';
+import ListProductsUserPage from "./components/pages/ListProductsUserPage";
 import ResultPage from "./components/pages/ResultPage";
 import SubmissionForm from "./components/pages/SubmissionForm";
-import { ToastContainer } from "react-toastify";
 import UserNotLoggedIn from "./components/pages/UserNotLoggedIn";
-import ListProductsUserPage from "./components/pages/ListProductsUserPage";
+import { ToastContainer } from "react-toastify";
+import { Provider } from "./components/ui/provider";
 
 const router = createBrowserRouter([
   {
@@ -39,11 +39,13 @@ function App() {
   
 
   return (
-    <Box>
-      <HeaderPage />
-      <RouterProvider router = {router} />
-      <ToastContainer />
-    </Box>
+    <Provider>
+      <Box  backgroundColor={"#F0F8FF"} w="100%" h="100%">
+        <HeaderPage />
+        <RouterProvider router = {router} />
+        <ToastContainer />
+      </Box>
+    </Provider>
   )
 }
 

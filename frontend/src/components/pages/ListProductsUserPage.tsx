@@ -39,7 +39,7 @@ const ListProductsUserPage = () => {
     };
 
     fetchData();
-  }, [logado, userAccountDetails, navigate, endFindUserList, useSearchImage]);
+  }, []);
 
   return (
     <>

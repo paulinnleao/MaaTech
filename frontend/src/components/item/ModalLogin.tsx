@@ -1,4 +1,5 @@
-import { Box, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, IconButton, Input, Portal } from "@chakra-ui/react";
+import logoMaatech from "@/components/utils/iconMaaTech.png";
+import { Box, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, IconButton, Image, Input, Portal } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRef } from "react";
 import { IoMdLogIn } from "react-icons/io";
@@ -13,6 +14,16 @@ interface ModaloginPageProps {
 }
 
 const ModalLogin: React.FC<ModaloginPageProps>= ({loginPage, setRegisterPage, setLoginPage}) => {
+    const styleButtonMenu = {
+        display:"flex",
+        backgroundColor:"#1491DC",
+        padding:"20px 35px",
+        alignItems:"center",
+        width:"8rem",
+        borderRadius:"5px",
+        cursor: "pointer",
+        color: "white"
+    }
     const {endLogin} = useEndpoints();
     const initialValues = {
         email: "",
@@ -43,32 +54,35 @@ const ModalLogin: React.FC<ModaloginPageProps>= ({loginPage, setRegisterPage, se
                             <IoMdLogIn />
                         </IconButton>       
                     </DialogTrigger>
-                    <Portal>
-                        <DialogContent >
-                            <DialogHeader>
-                            <DialogTitle>Login</DialogTitle>
+                        <DialogContent color="black" backgroundColor={"#F0F8FF"}  >
+                            <DialogHeader display="flex" alignItems="center" margin={"auto"}>
+                                
+                            <IconButton  backgroundColor={"#F0F8FF"} >
+                                <Image borderRadius="full" boxSize={"10"} src={logoMaatech} />
+                            </IconButton>
+                            <DialogTitle>MaaTech</DialogTitle>
                             </DialogHeader>
-                            <DialogBody >
-                                    <Input {...getFieldProps('email')} name="email" placeholder="Email" />
-                                    <Input {...getFieldProps('password')} name="password" type="password" placeholder="Senha" />
+                            <DialogBody display="flex" flexDir="column" gap={"2rem"} >
+                                    <Input {...getFieldProps('email')} textAlign={"center"} name="email" placeholder="Email" />
+                                    <Input {...getFieldProps('password')} textAlign={"center"} name="password" type="password" placeholder="Senha" />
                             </DialogBody>
                             <DialogFooter>
                             <DialogActionTrigger asChild>
-                                <Button color="white" onClick={()=>{
+                                <Button {...styleButtonMenu}  onClick={()=>{
                                     setLoginPage(false)
                                     setRegisterPage(true)
                                     }} textTransform="uppercase">Cadastrar</Button>
                             </DialogActionTrigger>
-                                <Button color="white" type="submit" textTransform="uppercase">Entrar</Button>
+                                <Button {...styleButtonMenu} type="submit" textTransform="uppercase">Entrar</Button>
                             </DialogFooter>
-                            <DialogCloseTrigger onClick={()=>setLoginPage(false)} />
+                            <DialogCloseTrigger color={"black"} onClick={()=>setLoginPage(false)} />
                         </DialogContent>
-                    </Portal>
                 </DialogRoot>
                 </Form>
             )}
         
         </Formik>
+        
     </Box>
     );
 

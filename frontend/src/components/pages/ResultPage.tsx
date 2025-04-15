@@ -6,6 +6,16 @@ import { ItemBodyProps } from "../item/ModalProduct";
 import { useEndpoints } from "../utils/useEndpoints";
 // AIzaSyBNvPR9hxR2Z7R1Pe2rRoUR0V9DMplHwh8
 
+const styleButtonMenu = {
+    display:"flex",
+    backgroundColor:"#1491DC",
+    padding:"20px 35px",
+    alignItems:"center",
+    width:"8rem",
+    borderRadius:"5px",
+    cursor: "pointer",
+    color: "white"
+}
 const ResultPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -34,7 +44,7 @@ const ResultPage = () => {
 
     return (
         <Box>
-            <Button color="white"  onClick={()=>navigate("/submission-form")}>Voltar</Button>
+            <Button {...styleButtonMenu}  onClick={()=>navigate("/submission-form")}>Voltar</Button>
             <Flex wrap={"wrap"} gap={"2rem"}>
                 {listProducts.map((item, index) => (
                     <CardList key={index} {...item} />

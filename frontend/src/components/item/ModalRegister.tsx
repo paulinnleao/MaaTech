@@ -1,4 +1,5 @@
-import { Button, DialogBody, DialogCloseTrigger, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle, Input } from "@chakra-ui/react";
+import logoMaatech from "@/components/utils/iconMaaTech.png";
+import { Button, DialogBody, DialogCloseTrigger, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle, IconButton, Image, Input } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useRef } from "react";
 import { Bounce, toast } from "react-toastify";
@@ -11,6 +12,16 @@ interface ModalRegisterPageProps {
     setRegisterPage: React.Dispatch<React.SetStateAction<boolean>>;
     setLoginPage: React.Dispatch<React.SetStateAction<boolean>>;
     
+}
+const styleButtonMenu = {
+    display:"flex",
+    backgroundColor:"#1491DC",
+    padding:"20px 35px",
+    alignItems:"center",
+    width:"8rem",
+    borderRadius:"5px",
+    cursor: "pointer",
+    color: "white"
 }
 
 const ModalRegister: React.FC<ModalRegisterPageProps> = ({registerPage, setRegisterPage, setLoginPage}) =>{
@@ -80,8 +91,11 @@ const ModalRegister: React.FC<ModalRegisterPageProps> = ({registerPage, setRegis
                     size="lg"
                     open={registerPage}
                         >
-                        <DialogContent >
-                        <DialogHeader>
+                        <DialogContent color="black" backgroundColor={"#F0F8FF"}>
+                        <DialogHeader display="flex" alignItems="center" margin="auto">
+                        <IconButton  backgroundColor={"#F0F8FF"} >
+                            <Image borderRadius="full" boxSize={"10"} src={logoMaatech} />
+                        </IconButton>
                         <DialogTitle>Realizar Cadastro</DialogTitle>
                         </DialogHeader>
                         <DialogBody display="flex" flexDir="column" gap={"1rem"} >
@@ -91,13 +105,13 @@ const ModalRegister: React.FC<ModalRegisterPageProps> = ({registerPage, setRegis
                         </DialogBody>
                         <DialogFooter>
                             <DialogActionTrigger asChild>
-                                <Button color="white" onClick={()=>{
+                                <Button {...styleButtonMenu} onClick={()=>{
                                     setRegisterPage(false)
                                 }} textTransform="uppercase">Cancelar</Button>
                             </DialogActionTrigger>
-                            <Button color="white" type="submit" textTransform="uppercase">Cadastrar</Button>
+                            <Button {...styleButtonMenu} type="submit" textTransform="uppercase">Cadastrar</Button>
                         </DialogFooter>
-                        <DialogCloseTrigger onClick={()=>{setRegisterPage(false)}} />
+                        <DialogCloseTrigger color="black" onClick={()=>{setRegisterPage(false)}} />
                     </DialogContent>
                 </DialogRoot>
             </Form>

@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class
-yMaaTechApplication {
+MaaTechApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MaaTechApplication.class, args);

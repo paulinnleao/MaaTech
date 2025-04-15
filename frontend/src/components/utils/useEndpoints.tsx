@@ -3,6 +3,7 @@ import { Bounce, toast } from "react-toastify";
 import { ItemBodyProps } from "../item/ModalProduct";
 import { imageNotFount } from "./util";
 import { SubmissionFormProps } from "../pages/SubmissionForm";
+import React from "react";
 
 export const useEndpoints = () => {
   const inputToken = useStoreActions<any>((actions) => actions.inputToken);
@@ -66,7 +67,7 @@ export const useEndpoints = () => {
           }
 
           const data = await res.json();
-
+          notifySuccess(`Bem vindo, ${data?.name}!`);
           inputUserAccountDetails(data);
         }catch (error) {
           toast(`${error}`, {

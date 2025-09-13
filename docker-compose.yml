@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: maatech-db
+    environment:
+      POSTGRES_DB: MaaTech
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: he282W0AYkmUNXiD
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: maatech-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/MaaTech
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: he282W0AYkmUNXiD
+
+  frontend:
+    build: ./frontend
+    container_name: maatech-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

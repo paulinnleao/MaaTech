@@ -59,7 +59,7 @@ public class SearchFormServiceImp implements SearchFormService {
             GeminiRequest request = new GeminiRequest(List.of(content));
 
             // Enviando requisição para a API Gemini
-            String response = GeminiApiClient.sendRequest(request, "AIzaSyC9IMBVBNdpT4vCSAtuHJr946zkEWBf2rw");
+            String response = GeminiApiClient.sendRequest(request, "AIzaSyCDl5g6vC9BZF7OqfU_Jmwv-VSp93xBmFE");
 
             // Processando a resposta da API
             return ResponseEntity.ok(response);  // Retornando a resposta JSON da API

@@ -1,8 +1,6 @@
 package com.maatech.config;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -10,39 +8,56 @@ import java.nio.charset.StandardCharsets;
 public class GeminiApiClient {
 
     public static String sendRequest(GeminiRequest request, String apiKey) throws Exception {
+        // 1. Defina os parâmetros da URL
+        String projectId = "localizacao-407721"; // SEU PROJECT ID AQUI
+        String region = "us-central1"; // Região válida e recomendada
+        String modelName = "gemini-1.5-pro";
 
-        // URL da API do Gemini
-        URL url = new URL("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + apiKey);
+        // 2. Construa a URL correta para a API Vertex AI
+        String urlString = String.format("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+                region, projectId, region, modelName);
+
+        URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-        // Configurando o método e cabeçalhos
+        // ... o resto do seu código permanece EXATAMENTE igual ...
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("X-goog-api-key", apiKey);
         connection.setDoOutput(true);
 
-        // Convertendo o objeto Java para JSON
         String jsonInputString = convertToJson(request);
 
-        // Enviando os dados
         try (OutputStream os = connection.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
             os.write(input, 0, input.length);
         }
 
-        // Lendo a resposta
+        // Código de resposta HTTP
         int responseCode = connection.getResponseCode();
         System.out.println("Response Code: " + responseCode);
 
+        // Decide de onde ler (sucesso ou erro)
+        InputStream inputStream = (responseCode >= 200 && responseCode < 300)
+                ? connection.getInputStream()
+                : connection.getErrorStream();
+
         // Capturando a resposta da API
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             StringBuilder response = new StringBuilder();
             String responseLine;
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            return response.toString();
+
+            if (responseCode >= 200 && responseCode < 300) {
+                return response.toString();
+            } else {
+                throw new IOException("Erro HTTP " + responseCode + ": " + response);
+            }
         }
     }
+
 
     private static String convertToJson(GeminiRequest request) {
         // Aqui você pode usar uma biblioteca como Jackson ou Gson para converter o objeto para JSON

@@ -3,6 +3,8 @@ package com.maatech.config;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +32,20 @@ public class SwaggerConfig {
                                 .url("https://opensource.org/licenses/Apache-2.0")
                         )
                 )
-                .addTagsItem(new Tag().name("Auth").description("Endpoints de autenticação (registro e login)"))
+                .addTagsItem(new Tag().name("Auth").description("Endpoints de autenticação"))
                 .addTagsItem(new Tag().name("Formulário").description("Busca de produtos via formulário"))
-                .addTagsItem(new Tag().name("Produtos").description("Operações relacionadas a produtos"));
+                .addTagsItem(new Tag().name("Produtos").description("Operações relacionadas a produtos"))
+
+                // Configuração de segurança para Swagger UI
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .components(new io.swagger.v3.oas.models.Components()
+                        .addSecuritySchemes("bearerAuth",
+                                new SecurityScheme()
+                                        .name("Authorization")
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                        )
+                );
     }
 }

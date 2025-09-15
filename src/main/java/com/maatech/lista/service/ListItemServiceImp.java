@@ -77,7 +77,6 @@ public class ListItemServiceImp implements ListItemService {
             if(Objects.nonNull(itemResponseDTO)){
 
                 item = itemMapper.fromResponseDtoToEntity(itemResponseDTO);
-                // Verificar se está autenticado na v2
                 responseDTO = listItemMapper.fromEntityToListItemResponseDTO(repository.save(new ListItem(user, item)));
             }else{
                 item = itemMapper.fromResponseDtoToEntity(itemService.createItem(itemRequestDTO));
@@ -90,13 +89,15 @@ public class ListItemServiceImp implements ListItemService {
     }
 
     @Override
-    public ResponseEntity<?> deleteItemFromUserList(UUID idUser, UUID idItem) {
+    public void deleteItemFromUserList(UUID idUser, UUID idItem) {
         ListItemResponseDTO listItemResponseDTO = findListItemById(idUser, idItem);
-        if(Objects.nonNull(listItemResponseDTO)){
+
+        if (Objects.nonNull(listItemResponseDTO)) {
             repository.delete(listItemMapper.fromResponseDtoToEntity(listItemResponseDTO));
-            return ResponseEntity.noContent().build();
-        }else{
-            throw new ResourceNotFoundException("This item there isn't in user list. idUser: " + idUser + ", idItem: " + idItem);
+        } else {
+            throw new ResourceNotFoundException(
+                    "This item doesn't exist in user list. idUser: " + idUser + ", idItem: " + idItem
+            );
         }
     }
 

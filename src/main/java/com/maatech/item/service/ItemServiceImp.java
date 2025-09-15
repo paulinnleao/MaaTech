@@ -42,12 +42,12 @@ public class ItemServiceImp implements ItemService{
 
     @Override
     public ItemResponseDTO createItem(ItemRequestDTO itemRequestDTO) {
-        if (findItemById(itemRequestDTO.getIdItem()) == null) {
-            Item newItem = itemMapper.fromRequestDtoToEntity(itemRequestDTO);
-            return itemMapper.fromEntityToResponseDTO(repository.save(newItem));
-        }
-        throw new ResourceAlreadyExistsException("Item with this UUID already exists: " + itemRequestDTO.getIdItem());
+        Item newItem = itemMapper.fromRequestDtoToEntity(itemRequestDTO);
+        newItem.setIdItem(null);
+        Item savedItem = repository.save(newItem);
+        return itemMapper.fromEntityToResponseDTO(savedItem);
     }
+
 
     @Override
     public ItemResponseDTO updateItem(ItemRequestDTO itemRequestDTO) {

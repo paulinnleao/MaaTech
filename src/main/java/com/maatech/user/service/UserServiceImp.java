@@ -8,11 +8,11 @@ import com.maatech.user.mapper.UserMapper;
 import com.maatech.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -26,16 +26,24 @@ public class UserServiceImp implements UserService{
 
     @Override
     public UserResponseDTO findUserById(UUID idUser) {
-        return
-                mapper.fromEntityToResponseDTO(
-                        repository.findById(idUser)
-                                .orElseThrow(()-> new ResourceNotFoundException("There isn't user with this UUID: " + idUser)));
+        return repository.findById(idUser)
+                .map(mapper::fromEntityToResponseDTO)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "There isn't user with this UUID: " + idUser
+                ));
     }
 
     @Override
-    public List<ResponseEntity<?>> findAllUser() {
-        return List.of();
+    public List<UserResponseDTO> findAllUser() {
+        List<User> users = repository.findAll();
+
+        List<UserResponseDTO> response = users.stream()
+                .map(u -> new UserResponseDTO(u.getIdUser(), u.getName(), u.getEmail()))
+                .toList();
+
+        return response;
     }
+
 
     @Override
     public ResponseEntity<?> createUser(UserRequestDTO userRequestDTO) {
@@ -60,12 +68,25 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public ResponseEntity<?> updateUser(UserRequestDTO user) {
-        return null;
+    public Optional<UserResponseDTO> updateUser(UserRequestDTO userDto) {
+        return repository.findById(userDto.getIdUser())
+                .map(existingUser -> {
+                    existingUser.setName(userDto.getName());
+                    existingUser.setEmail(userDto.getEmail());
+                    existingUser.setPassword(userDto.getPassword());
+                    User updated = repository.save(existingUser);
+                    return new UserResponseDTO(updated.getIdUser(), updated.getName(), updated.getEmail());
+                });
     }
 
     @Override
-    public ResponseEntity<?> deleteUserById(UUID idUser) {
-        return null;
+    public boolean deleteUserById(UUID idUser) {
+        return repository.findById(idUser)
+                .map(user -> {
+                    repository.delete(user);
+                    return true;
+                })
+                .orElse(false);
     }
+
 }

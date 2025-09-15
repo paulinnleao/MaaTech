@@ -33,4 +33,10 @@ public class UserResponseDTO {
 
     public UserResponseDTO() {
     }
+
+    public UserResponseDTO(UUID idUser, String name, String email) {
+        this.idUser = idUser;
+        this.name = name;
+        this.email = email;
+    }
 }

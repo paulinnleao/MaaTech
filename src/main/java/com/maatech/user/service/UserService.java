@@ -5,15 +5,16 @@ import com.maatech.user.entity.dto.UserResponseDTO;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface UserService {
 
     UserResponseDTO findUserById(UUID idUser);
-    List<ResponseEntity<?>> findAllUser();
+    List<UserResponseDTO> findAllUser();
     ResponseEntity<?> createUser(UserRequestDTO user);
-    ResponseEntity<?> updateUser(UserRequestDTO user);
-    ResponseEntity<?> deleteUserById(UUID idUser);
+    Optional<UserResponseDTO> updateUser(UserRequestDTO user);
+    boolean deleteUserById(UUID idUser);
 
     UserResponseDTO findUserByMail(String email);
 }

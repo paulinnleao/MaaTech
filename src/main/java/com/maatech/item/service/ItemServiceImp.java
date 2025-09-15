@@ -1,5 +1,6 @@
 package com.maatech.item.service;
 
+import com.maatech.exception.ResourceAlreadyExistsException;
 import com.maatech.exception.ResourceNotFoundException;
 import com.maatech.item.entity.Item;
 import com.maatech.item.entity.ItemRequestDTO;
@@ -31,33 +32,44 @@ public class ItemServiceImp implements ItemService{
 
         return  itemMapper.fromEntityToResponseDTO(item);
     }
-
     @Override
-    public List<ResponseEntity<?>> findAllItems() {
-        return List.of();
+    public List<ItemResponseDTO> findAllItems() {
+        return repository.findAll()
+                .stream()
+                .map(itemMapper::fromEntityToResponseDTO)
+                .toList();
     }
 
     @Override
     public ItemResponseDTO createItem(ItemRequestDTO itemRequestDTO) {
-
-        if(Objects.isNull(findItemById(itemRequestDTO.getIdItem()))){
-            Item newItem = itemMapper
-                    .fromRequestDtoToEntity(itemRequestDTO);
-
-            return itemMapper
-                    .fromEntityToResponseDTO(repository.save(newItem));
+        if (findItemById(itemRequestDTO.getIdItem()) == null) {
+            Item newItem = itemMapper.fromRequestDtoToEntity(itemRequestDTO);
+            return itemMapper.fromEntityToResponseDTO(repository.save(newItem));
         }
-
-        return null;
+        throw new ResourceAlreadyExistsException("Item with this UUID already exists: " + itemRequestDTO.getIdItem());
     }
 
     @Override
-    public ResponseEntity<?> updateItem(ItemRequestDTO item) {
-        return null;
+    public ItemResponseDTO updateItem(ItemRequestDTO itemRequestDTO) {
+        Item existingItem = repository.findById(itemRequestDTO.getIdItem())
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found with UUID: " + itemRequestDTO.getIdItem()));
+        existingItem.setName(itemRequestDTO.getName());
+        existingItem.setDescription(itemRequestDTO.getDescription());
+        existingItem.setBrand(itemRequestDTO.getBrand());
+        existingItem.setModel(itemRequestDTO.getModel());
+        existingItem.setAveragePrice(itemRequestDTO.getAveragePrice());
+        existingItem.setCategory(itemRequestDTO.getCategory());
+        existingItem.setRating(itemRequestDTO.getRating());
+        existingItem.setReviewCount(itemRequestDTO.getReviewCount());
+        existingItem.setWeight(itemRequestDTO.getWeight());
+
+        return itemMapper.fromEntityToResponseDTO(repository.save(existingItem));
     }
 
     @Override
-    public ResponseEntity<?> deleteItemById(UUID idItem) {
-        return null;
+    public void deleteItemById(UUID idItem) {
+        Item item = repository.findById(idItem)
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found with UUID: " + idItem));
+        repository.delete(item);
     }
 }

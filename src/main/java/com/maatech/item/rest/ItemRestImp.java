@@ -1,10 +1,14 @@
 package com.maatech.item.rest;
 
 import com.maatech.item.entity.ItemRequestDTO;
+import com.maatech.item.entity.ItemResponseDTO;
+import com.maatech.item.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +19,9 @@ import java.util.UUID;
 @RequestMapping("/items")
 public class ItemRestImp implements ItemRest {
 
+    @Autowired
+    private ItemService service;
+
     @Override
     @Operation(summary = "Busca um item pelo ID", description = "Retorna um item específico a partir do UUID fornecido")
     @ApiResponses(value = {
@@ -22,9 +29,10 @@ public class ItemRestImp implements ItemRest {
             @ApiResponse(responseCode = "404", description = "Item não encontrado")
     })
     @GetMapping("{idItem}")
-    public ResponseEntity<?> findItemById(
+    public ResponseEntity<ItemResponseDTO> findItemById(
             @Parameter(description = "UUID do item", required = true) @PathVariable UUID idItem) {
-        return null;
+        ItemResponseDTO item = service.findItemById(idItem);
+        return ResponseEntity.ok(item);
     }
 
     @Override
@@ -33,8 +41,8 @@ public class ItemRestImp implements ItemRest {
             @ApiResponse(responseCode = "200", description = "Lista de itens retornada com sucesso")
     })
     @GetMapping
-    public List<ResponseEntity<?>> findAllItems() {
-        return List.of();
+    public ResponseEntity<List<ItemResponseDTO>> findAllItems() {
+        return ResponseEntity.ok(service.findAllItems());
     }
 
     @Override
@@ -44,8 +52,9 @@ public class ItemRestImp implements ItemRest {
             @ApiResponse(responseCode = "400", description = "Dados inválidos")
     })
     @PostMapping
-    public ResponseEntity<?> createItem(@RequestBody ItemRequestDTO item) {
-        return null;
+    public ResponseEntity<ItemResponseDTO> createItem(@RequestBody ItemRequestDTO item) {
+        ItemResponseDTO createdItem = service.createItem(item);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdItem);
     }
 
     @Override
@@ -55,8 +64,9 @@ public class ItemRestImp implements ItemRest {
             @ApiResponse(responseCode = "404", description = "Item não encontrado")
     })
     @PutMapping
-    public ResponseEntity<?> updateItem(@RequestBody ItemRequestDTO item) {
-        return null;
+    public ResponseEntity<ItemResponseDTO> updateItem(@RequestBody ItemRequestDTO item) {
+        ItemResponseDTO updatedItem = service.updateItem(item);
+        return ResponseEntity.ok(updatedItem);
     }
 
     @Override
@@ -66,8 +76,8 @@ public class ItemRestImp implements ItemRest {
             @ApiResponse(responseCode = "404", description = "Item não encontrado")
     })
     @DeleteMapping("{idItem}")
-    public ResponseEntity<?> deleteItemById(
-            @Parameter(description = "UUID do item", required = true) @PathVariable UUID idItem) {
-        return null;
+    public ResponseEntity<Void> deleteItemById(@PathVariable UUID idItem) {
+        service.deleteItemById(idItem);
+        return ResponseEntity.noContent().build();
     }
 }

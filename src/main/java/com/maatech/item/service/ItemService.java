@@ -11,8 +11,8 @@ import java.util.UUID;
 public interface ItemService {
 
     ItemResponseDTO findItemById(UUID idItem);
-    List<ResponseEntity<?>> findAllItems();
+    List<ItemResponseDTO> findAllItems();
     ItemResponseDTO createItem(ItemRequestDTO item);
-    ResponseEntity<?> updateItem(ItemRequestDTO item);
-    ResponseEntity<?> deleteItemById(UUID idItem);
+    ItemResponseDTO updateItem(ItemRequestDTO item);
+    void deleteItemById(UUID idItem);
 }

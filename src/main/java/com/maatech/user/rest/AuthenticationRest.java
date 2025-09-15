@@ -1,15 +1,17 @@
 package com.maatech.user.rest;
 
 import com.maatech.config.security.TokenService;
-import com.maatech.user.entity.UserRole;
-import com.maatech.user.entity.dto.AuthenticationDTO;
-import com.maatech.user.entity.dto.LoginResponseDTO;
-import com.maatech.user.entity.dto.RegisterDTO;
 import com.maatech.user.entity.User;
-import com.maatech.user.entity.dto.UserRequestDTO;
+import com.maatech.user.entity.UserRole;
+import com.maatech.user.entity.dto.*;
 import com.maatech.user.mapper.UserMapper;
 import com.maatech.user.repository.UserRepository;
 import com.maatech.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +41,13 @@ public class AuthenticationRest {
     @Autowired
     private TokenService tokenService;
 
+    @Operation(summary = "Realiza login do usuário", description = "Recebe email e senha e retorna um token JWT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login realizado com sucesso",
+                    content = @Content(schema = @Schema(implementation = LoginResponseDTO.class))),
+            @ApiResponse(responseCode = "401", description = "Credenciais inválidas"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getEmail(), data.getPassword());
@@ -49,6 +58,13 @@ public class AuthenticationRest {
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
+    @Operation(summary = "Registra um novo usuário", description = "Cria um usuário com e-mail, senha, nome e role")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário registrado com sucesso",
+                    content = @Content(schema = @Schema(implementation = UserResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Email já cadastrado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterDTO data){
         if(this.repository.findByEmail(data.getEmail()) != null){
@@ -61,3 +77,4 @@ public class AuthenticationRest {
         return userService.createUser(newUser);
     }
 }
+

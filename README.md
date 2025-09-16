@@ -65,7 +65,12 @@ maatech/
 │  ├─ Dockerfile
 │  ├─ package.json
 │  └─ yarn.lock
-├─ src/main/java/com/maatech/...
+├─ src/
+│  └─ main/
+│     └─ java/
+│        └─ com/
+│           └─ maatech/
+│              └─ ...
 ├─ Dockerfile
 ├─ pom.xml
 ├─ docker-compose.yml

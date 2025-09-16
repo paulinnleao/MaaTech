@@ -60,15 +60,14 @@ Bem-vindo ao MaaTech, um sistema completo que combina backend em Spring Boot e f
 ## Estrutura de Pastas
 
 maatech/
-├─ backend/
-│  ├─ src/main/java/com/maatech/...
-│  ├─ Dockerfile
-│  └─ pom.xml
 ├─ frontend/
 │  ├─ src/
 │  ├─ Dockerfile
 │  ├─ package.json
 │  └─ yarn.lock
+├─ src/main/java/com/maatech/...
+├─ Dockerfile
+├─ pom.xml
 ├─ docker-compose.yml
 └─ README.md
 
@@ -158,4 +157,4 @@ http://localhost:8080/swagger-ui/index.html
 ### Desenvolvedor
 
 - **Nome:** Paulo Henrique Leão de Oliveira
-- **E-mail:** paulo.oliveira@supera.com.br
+- **E-mail:** phleaoliveira@gmail.com.br
